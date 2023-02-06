@@ -27,4 +27,13 @@ describe('logger functions', () => {
     logger.error('I am an error message!');
     expect(consoleSpy).toHaveBeenCalledWith(`error: I am an error message!${EOL}`);
   });
+
+  it('GIVEN a logger WHEN an error is thrown THEN the console message is correct.', () => {
+    // @ts-ignore
+    const consoleSpy = jest.spyOn(console._stdout, 'write');
+    const err = new Error('I am an error message!');
+    logger.error('I am an error message!', { stack: err.stack });
+    expect(err.stack).toBeDefined();
+    expect(consoleSpy).toHaveBeenCalledWith(`error: I am an error message!${EOL}`);
+  });
 });
