@@ -8,13 +8,9 @@ import { generateMinistryDocumentModel } from './models/document';
 import { Request } from './models/request';
 import { DocumentType } from './models/documentType.enum';
 
-const handler: Handler = async (
-  event: SQSEvent,
-): Promise<SQSBatchResponse> => {
+const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
   logger.debug("Function triggered'.");
-  if (
-    !event || !event.Records || !event.Records.length
-  ) {
+  if (!event || !event.Records || !event.Records.length) {
     logger.error('ERROR: event is not defined.');
     throw new Error('Event is empty');
   }
@@ -33,7 +29,8 @@ const handler: Handler = async (
   });
 
   const results = await Promise.allSettled(altPromiseArray);
-  const ids = results.map((result, index) => (result.status === 'fulfilled' ? null : event.Records[index].messageId))
+  const ids = results
+    .map((result, index) => (result.status === 'fulfilled' ? null : event.Records[index].messageId))
     .filter((item) => item !== null);
   return {
     batchItemFailures: ids.map((id) => ({ itemIdentifier: id })),
@@ -92,12 +89,14 @@ const uploadPdfToS3 = async (
   s3?: S3,
 ): Promise<any> => {
   const s3Client = s3 ?? new S3({ region: 'eu-west-1' });
-  return s3Client.send(new PutObjectCommand({
-    Bucket: process.env.BUCKETNAME,
-    Key: `${process.env.BUCKETFOLDER}/${fileName}`,
-    Body: data,
-    Metadata: metadata,
-  }));
+  return s3Client.send(
+    new PutObjectCommand({
+      Bucket: process.env.BUCKETNAME,
+      Key: `${process.env.BUCKETFOLDER}/${fileName}`,
+      Body: data,
+      Metadata: metadata,
+    }),
+  );
 };
 
 export {
