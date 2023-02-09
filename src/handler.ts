@@ -88,11 +88,6 @@ const uploadPdfToS3 = async (
   fileName: string,
   s3?: S3,
 ): Promise<any> => {
-  logger.debug('S3 called with the following inputs: ');
-  logger.debug(data);
-  logger.debug(metadata);
-  logger.debug(fileName);
-
   const s3Client = s3 ?? new S3({ region: 'eu-west-1' });
   return s3Client.send(
     new PutObjectCommand({
