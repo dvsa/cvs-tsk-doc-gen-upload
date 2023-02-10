@@ -41,8 +41,10 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
   try {
     logger.info('Starting lambda to lambda invoke');
     const result = await invokePdfGenLambda(documentData, request.documentName);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+    const resBody: string = JSON.parse(result.Payload as unknown as string).body;
     logger.info('Finishing lambda to lambda invoke');
-    const responseBuffer: Buffer = Buffer.from(result.Payload.toString(), 'base64');
+    const responseBuffer: Buffer = Buffer.from(resBody, 'base64');
     const metaData = {
       'date-of-issue': Date.now().toString(),
       'cert-type': request.documentName,
@@ -91,8 +93,8 @@ const uploadPdfToS3 = async (
   const s3Client = s3 ?? new S3({ region: 'eu-west-1' });
   return s3Client.send(
     new PutObjectCommand({
-      Bucket: process.env.BUCKETNAME,
-      Key: `${process.env.BUCKETFOLDER}/${fileName}`,
+      Bucket: process.env.BUCKET_NAME,
+      Key: `${process.env.BUCKET_FOLDER}/${fileName}.pdf`,
       Body: data,
       Metadata: metadata,
     }),

@@ -73,12 +73,12 @@ describe('Document tests', () => {
       },
     ] as IAxle[];
     const document = generateMinistryDocumentModel(vehicle);
-    expect(document.PLATE_DATA.Axles.Axle4.Weights.GbWeight).toEqual('123');
+    expect(document.PLATES_DATA.Axles.Axle4.Weights.GbWeight).toEqual('123');
   });
   it('should apply no water mark for prod', () => {
     process.env.BRANCH = 'prod';
     const vehicle = generateVehicle();
     const document = generateMinistryDocumentModel(vehicle);
-    expect(document.WATERMARK).toEqual('');
+    expect(document.Watermark).toEqual('');
   });
 });
