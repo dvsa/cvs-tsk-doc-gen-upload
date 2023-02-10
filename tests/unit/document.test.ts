@@ -10,7 +10,7 @@ describe('Document tests', () => {
 
   it('should only populate 4 axles if there are more on the vehicle', () => {
     const vehicle = generateVehicle();
-    vehicle.techRecord[0].axles = [
+    vehicle.techRecord.axles = [
       {
         tyres: {
           tyreSize: '1',

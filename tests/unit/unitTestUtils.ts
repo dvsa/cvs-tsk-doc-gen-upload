@@ -1,7 +1,7 @@
 export const generateVehicle = () => ({
   primaryVrm: '123',
   vin: '123',
-  techRecord: [
+  techRecord:
     {
       vehicleType: 'hgv',
       plates: {
@@ -52,7 +52,6 @@ export const generateVehicle = () => ({
         },
       ],
     },
-  ],
 } as unknown as IVehicleRecord);
 
 export const addMiddleware = <ResponseType>(response: ResponseType) => (_, _2) => async (_3) => Promise.resolve({ output: response, response: {} });

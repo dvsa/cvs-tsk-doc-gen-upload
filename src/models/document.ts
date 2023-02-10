@@ -7,9 +7,10 @@ export interface MinistryDocument {
   PLATE_DATA: MinistryPlate,
   WATERMARK: string,
 }
+
 export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): MinistryDocument => {
   const document: MinistryDocument = {} as MinistryDocument;
-  const techRecord = vehicle.techRecord[0];
+  const { techRecord } = vehicle;
   const plateData: Partial<MinistryPlate> = {
     PlateSerialNumber: techRecord.plates.plateSerialNumber,
     DtpNumber: techRecord.brakes.dtpNumber,

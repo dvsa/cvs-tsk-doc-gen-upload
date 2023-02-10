@@ -6,7 +6,7 @@ import { PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import logger from './observability/logger';
 import { generateMinistryDocumentModel } from './models/document';
 import { Request } from './models/request';
-import { DocumentType } from './models/documentType.enum';
+import { DocumentType } from './models/documentName.enum';
 
 const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
   logger.debug("Function triggered'.");
@@ -19,9 +19,9 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
     const request = JSON.parse(sqsRecord.body) as Request;
     let documentData;
     let fileName: string;
-    if (request.documentName === DocumentType.MINISTRY || request.documentName === DocumentType.MINITRY_TRL) {
+    if (request.documentName === DocumentType.MINISTRY || request.documentName === DocumentType.MINISTRY_TRL) {
       documentData = generateMinistryDocumentModel(request.vehicle);
-      fileName = request.vehicle.techRecord[0].plates.plateSerialNumber;
+      fileName = `plate_${request.vehicle.techRecord.plates.plateSerialNumber}`;
     } else {
       throw new Error('Document Type not supported');
     }
