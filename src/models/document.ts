@@ -34,7 +34,7 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Pl
     MaxTrainEecWeight: techRecord.maxTrainEecWeight.toString(),
     DimensionLength: techRecord.dimensions.length.toString(),
     DimensionWidth: techRecord.dimensions.width.toString(),
-    PlateIssueDate: techRecord.plates.plateIssueDate,
+    PlateIssueDate: plate.plateIssueDate,
     TyreUseCode: techRecord.tyreUseCode,
     Axles: populateAxles(techRecord.axles),
   };
@@ -50,7 +50,7 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Pl
 
   document.PLATES_DATA = plateData as MinistryPlate;
   document.Watermark = process.env.BRANCH === 'prod' ? '' : 'NOT VALID';
-  document.Reissue = { Reason: techRecord.plates.plateReasonForIssue };
+  document.Reissue = { Reason: plate.plateReasonForIssue };
 
   return document;
 };
