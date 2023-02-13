@@ -1,10 +1,18 @@
 import { generateMinistryDocumentModel } from '../../src/models/document';
+import { PlateReasonForIssue } from '../../src/models/request';
 import { generateVehicle } from './unitTestUtils';
 
 describe('Document tests', () => {
+  const plate = {
+    plateSerialNumber: '12345',
+    plateIssueDate: new Date().toISOString(),
+    plateReasonForIssue: PlateReasonForIssue.DESTROYED,
+    plateIssuer: 'user',
+  };
+
   it('should convert a vehicle into a Ministry Document', () => {
     const vehicle = generateVehicle();
-    const document = generateMinistryDocumentModel(vehicle);
+    const document = generateMinistryDocumentModel(vehicle, plate);
     expect(document).toBeTruthy();
   });
 
@@ -72,13 +80,13 @@ describe('Document tests', () => {
         },
       },
     ] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle);
+    const document = generateMinistryDocumentModel(vehicle, plate);
     expect(document.PLATES_DATA.Axles.Axle4.Weights.GbWeight).toEqual('123');
   });
   it('should apply no water mark for prod', () => {
     process.env.BRANCH = 'prod';
     const vehicle = generateVehicle();
-    const document = generateMinistryDocumentModel(vehicle);
+    const document = generateMinistryDocumentModel(vehicle, plate);
     expect(document.Watermark).toEqual('');
   });
 });

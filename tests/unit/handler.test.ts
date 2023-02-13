@@ -6,8 +6,16 @@ import { addMiddleware, generateVehicle } from './unitTestUtils';
 import * as DocumentGeneration from '../../src/models/document';
 import { invokePdfGenLambda, uploadPdfToS3 } from '../../src/handler';
 import { generateMinistryDocumentModel } from '../../src/models/document';
+import { PlateReasonForIssue } from '../../src/models/request';
 
 describe('handler tests', () => {
+  const plate = {
+    plateSerialNumber: '12345',
+    plateIssueDate: new Date().toISOString(),
+    plateReasonForIssue: PlateReasonForIssue.DESTROYED,
+    plateIssuer: 'user',
+  };
+
   beforeEach(() => {
     process.env.DOC_GEN_NAME = 'test';
   });
@@ -27,6 +35,7 @@ describe('handler tests', () => {
     sqsEvent.Records[0].body = JSON.stringify({
       documentName: 'NOTSUPPORTED',
       vehicle: {},
+      plate,
     });
     try {
       await Handler.handler(sqsEvent, undefined, () => true);
@@ -41,6 +50,7 @@ describe('handler tests', () => {
     sqsEvent.Records[0].body = JSON.stringify({
       documentName: 'VTG6_VTG7',
       vehicle: generateVehicle(),
+      plate,
     });
 
     const ministryPlateSpy = jest.spyOn(DocumentGeneration, 'generateMinistryDocumentModel');
@@ -52,7 +62,11 @@ describe('handler tests', () => {
     it('should return a 200 on successful pdf generation', async () => {
       const lambdaClient = new LambdaClient({ region: 'eu-west-1' });
       lambdaClient.middlewareStack.add(addMiddleware(<InvokeCommandOutput>{ StatusCode: 200 }));
-      const res = await invokePdfGenLambda(generateMinistryDocumentModel(generateVehicle()), 'VTG6_VTG7', lambdaClient);
+      const res = await invokePdfGenLambda(
+        generateMinistryDocumentModel(generateVehicle(), plate),
+        'VTG6_VTG7',
+        lambdaClient,
+      );
       expect(res.StatusCode).toEqual(200);
     });
   });

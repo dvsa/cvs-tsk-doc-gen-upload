@@ -20,8 +20,8 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
     let documentData;
     let fileName: string;
     if (request.documentName === DocumentType.MINISTRY || request.documentName === DocumentType.MINISTRY_TRL) {
-      documentData = generateMinistryDocumentModel(request.vehicle);
-      fileName = `plate_${request.vehicle.techRecord.plates.plateSerialNumber}`;
+      documentData = generateMinistryDocumentModel(request.vehicle, request.plate);
+      fileName = `plate_${request.plate.plateSerialNumber}`;
     } else {
       throw new Error('Document Type not supported');
     }
@@ -105,4 +105,6 @@ const uploadPdfToS3 = async (
     });
 };
 
-export { handler, invokePdfGenLambda, uploadPdfToS3, generateAndUpload };
+export {
+  handler, invokePdfGenLambda, uploadPdfToS3, generateAndUpload,
+};

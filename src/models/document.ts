@@ -1,4 +1,5 @@
 import { Axles, MinistryPlate } from './ministryPlate';
+import { Plates } from './request';
 
 export interface MinistryDocument {
   Reissue?: {
@@ -8,11 +9,11 @@ export interface MinistryDocument {
   Watermark: string;
 }
 
-export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): MinistryDocument => {
+export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Plates): MinistryDocument => {
   const document: MinistryDocument = {} as MinistryDocument;
   const { techRecord } = vehicle;
   const plateData: Partial<MinistryPlate> = {
-    PlateSerialNumber: techRecord.plates.plateSerialNumber,
+    PlateSerialNumber: plate.plateSerialNumber,
     DtpNumber: techRecord.brakes.dtpNumber,
     PrimaryVrm: vehicle.primaryVrm,
     Vin: vehicle.vin,
