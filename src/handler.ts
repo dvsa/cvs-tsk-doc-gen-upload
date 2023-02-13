@@ -41,19 +41,17 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
   try {
     logger.info('Starting lambda to lambda invoke');
     const result = await invokePdfGenLambda(documentData, request.documentName);
-    logger.info('Finishing lambda to lambda invoke');
-    logger.info(JSON.stringify(result));
-    const responseBuffer: Buffer = Buffer.from(result.Payload.toString(), 'base64');
+    logger.info('Finished lambda to lambda invoke, checking response');
     const metaData = {
       'date-of-issue': Date.now().toString(),
       'cert-type': request.documentName,
       'file-format': 'pdf',
-      'file-size': responseBuffer.byteLength.toString(),
+      'file-size': result.Payload.byteLength.toString(),
       'should-email-certificate': 'false',
     };
-    logger.info(`Starting s3 upload for file: ${fileName}`);
-    await uploadPdfToS3(responseBuffer, metaData, fileName);
-    logger.info('Finishing s3 upload');
+    logger.info(`Starting s3 upload for file: ${process.env.BRANCH}/${fileName}`);
+    await uploadPdfToS3(result.Payload, metaData, fileName);
+    logger.info('Finished s3 upload');
   } catch (error) {
     logger.error(error);
     throw error;
@@ -61,7 +59,7 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
 };
 
 const invokePdfGenLambda = async (docGenPayload, documentType: string, lambdaClient?: LambdaClient) => {
-  const client = lambdaClient ?? new LambdaClient({ region: 'eu-west-1' });
+  const client = lambdaClient ?? new LambdaClient({ region: process.env.AWS_REGION });
   const payload: any = JSON.stringify({
     httpMethod: 'POST',
     pathParameters: {
