@@ -90,17 +90,19 @@ const uploadPdfToS3 = async (
   s3?: S3,
 ): Promise<any> => {
   const s3Client = s3 ?? new S3({ region: 'eu-west-1' });
-  return s3Client.send(
-    new PutObjectCommand({
-      Bucket: process.env.BUCKET_NAME,
-      Key: `${process.env.BUCKET_FOLDER}/${fileName}.pdf`,
-      Body: data,
-      Metadata: metadata,
-    }),
-  ).catch((err) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    logger.error(err.message);
-  });
+  return s3Client
+    .send(
+      new PutObjectCommand({
+        Bucket: process.env.BUCKET_NAME,
+        Key: `${process.env.BUCKET_FOLDER}/${fileName}.pdf`,
+        Body: data,
+        Metadata: metadata,
+      }),
+    )
+    .catch((err) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      logger.error(err.message);
+    });
 };
 
 export {
