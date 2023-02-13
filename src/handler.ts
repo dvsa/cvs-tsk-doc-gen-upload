@@ -94,7 +94,7 @@ const uploadPdfToS3 = async (
     .send(
       new PutObjectCommand({
         Bucket: process.env.BUCKET_NAME,
-        Key: `${process.env.BUCKET_FOLDER}/${fileName}.pdf`,
+        Key: `${process.env.BRANCH}/${fileName}.pdf`,
         Body: data,
         Metadata: metadata,
       }),
