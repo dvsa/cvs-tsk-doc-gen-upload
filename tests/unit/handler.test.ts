@@ -26,7 +26,7 @@ describe('handler tests', () => {
       await Handler.handler(sqsEvent, undefined, () => true);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(err.message).toEqual('Event is empty');
+      expect(err.message).toBe('Event is empty');
     }
   });
 
@@ -41,7 +41,7 @@ describe('handler tests', () => {
       await Handler.handler(sqsEvent, undefined, () => true);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(err.message).toEqual('Document Type not supported');
+      expect(err.message).toBe('Document Type not supported');
     }
   });
 
@@ -67,7 +67,7 @@ describe('handler tests', () => {
         'VTG6_VTG7',
         lambdaClient,
       );
-      expect(res.StatusCode).toEqual(200);
+      expect(res.StatusCode).toBe(200);
     });
   });
   describe('uploadPdfToS3', () => {
@@ -77,7 +77,7 @@ describe('handler tests', () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const res = await uploadPdfToS3('', {}, 'test', s3Client);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(res.VersionId).toEqual('1');
+      expect(res.VersionId).toBe('1');
     });
   });
 });

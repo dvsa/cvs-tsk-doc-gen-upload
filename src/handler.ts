@@ -44,7 +44,9 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
     logger.info('Finished lambda to lambda invoke, checking response');
 
     const responseString: string = new TextDecoder().decode(response.Payload);
-    const responseJson = JSON.parse(responseString);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const responseJson: any = JSON.parse(responseString);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
 
     const metaData = {
