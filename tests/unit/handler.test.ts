@@ -51,9 +51,7 @@ describe('handler tests', () => {
   describe('invokePdfGenLambda', () => {
     it('should return a 200 on successful pdf generation', async () => {
       const lambdaClient = new LambdaClient({ region: 'eu-west-1' });
-      lambdaClient.middlewareStack.add(
-        addMiddleware(<InvokeCommandOutput>{ StatusCode: 200 }),
-      );
+      lambdaClient.middlewareStack.add(addMiddleware(<InvokeCommandOutput>{ StatusCode: 200 }));
       const res = await invokePdfGenLambda(generateMinistryDocumentModel(generateVehicle()), 'VTG6_VTG7', lambdaClient);
       expect(res.StatusCode).toEqual(200);
     });

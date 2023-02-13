@@ -105,6 +105,4 @@ const uploadPdfToS3 = async (
     });
 };
 
-export {
-  handler, invokePdfGenLambda, uploadPdfToS3, generateAndUpload,
-};
+export { handler, invokePdfGenLambda, uploadPdfToS3, generateAndUpload };

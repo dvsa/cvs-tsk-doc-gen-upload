@@ -2,10 +2,10 @@ import { Axles, MinistryPlate } from './ministryPlate';
 
 export interface MinistryDocument {
   Reissue?: {
-    Reason: string,
-  }
-  PLATES_DATA: MinistryPlate,
-  Watermark: string,
+    Reason: string;
+  };
+  PLATES_DATA: MinistryPlate;
+  Watermark: string;
 }
 
 export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): MinistryDocument => {
@@ -48,7 +48,7 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): Ministry
   }
 
   document.PLATES_DATA = plateData as MinistryPlate;
-  document.Watermark = (process.env.BRANCH === 'prod') ? '' : 'NOT VALID';
+  document.Watermark = process.env.BRANCH === 'prod' ? '' : 'NOT VALID';
   document.Reissue = { Reason: techRecord.plates.plateReasonForIssue };
 
   return document;
@@ -56,7 +56,10 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): Ministry
 
 const populateAxles = (axles: IAxle[]): Axles => {
   const plateAxles: Axles = {
-    Axle1: {}, Axle2: {}, Axle3: {}, Axle4: {},
+    Axle1: {},
+    Axle2: {},
+    Axle3: {},
+    Axle4: {},
   } as Axles;
   const termincatingCondition = axles.length < 3 ? axles.length : 4;
   for (let i = 0; i < termincatingCondition; i++) {

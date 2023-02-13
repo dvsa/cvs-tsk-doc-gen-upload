@@ -1,4 +1,4 @@
 export interface Request {
-  documentName: string,
-  vehicle: IVehicleRecord,
+  documentName: string;
+  vehicle: IVehicleRecord;
 }

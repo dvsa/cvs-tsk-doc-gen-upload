@@ -20,24 +20,24 @@ interface ITechRecord {
   vehicleType: string;
   plates: IPlates;
   brakes: {
-    brakeCode: string,
-    brakeCodeOriginal: string,
+    brakeCode: string;
+    brakeCodeOriginal: string;
     dtpNumber: string;
-    dataTrBrakeOne: string,
-    dataTrBrakeTwo: string,
-    dataTrBrakeThree: string,
-    retarderBrakeOne: string,
-    retarderBrakeTwo: string,
+    dataTrBrakeOne: string;
+    dataTrBrakeTwo: string;
+    dataTrBrakeThree: string;
+    retarderBrakeOne: string;
+    retarderBrakeTwo: string;
     brakeForceWheelsNotLocked: {
-      serviceBrakeForceA: number,
-      secondaryBrakeForceA: number,
-      parkingBrakeForceA: number
-    },
+      serviceBrakeForceA: number;
+      secondaryBrakeForceA: number;
+      parkingBrakeForceA: number;
+    };
     brakeForceWheelsUpToHalfLocked: {
-      serviceBrakeForceB: number,
-      secondaryBrakeForceB: number,
-      parkingBrakeForceB: number
-    }
+      serviceBrakeForceB: number;
+      secondaryBrakeForceB: number;
+      parkingBrakeForceB: number;
+    };
   };
   approvalTypeNumber: string;
   variantNumber: string;
@@ -105,8 +105,10 @@ type IDimensions = {
   length: number;
   width: number;
   height?: number;
-  axleSpacing: [{
-    axles: string;
-    value: number;
-  }];
+  axleSpacing: [
+    {
+      axles: string;
+      value: number;
+    },
+  ];
 };
