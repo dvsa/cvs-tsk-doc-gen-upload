@@ -4,8 +4,8 @@ export interface MinistryDocument {
   Reissue?: {
     Reason: string,
   }
-  PLATE_DATA: MinistryPlate,
-  WATERMARK: string,
+  PLATES_DATA: MinistryPlate,
+  Watermark: string,
 }
 
 export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): MinistryDocument => {
@@ -47,8 +47,8 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord): Ministry
     plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk.toString();
   }
 
-  document.PLATE_DATA = plateData as MinistryPlate;
-  document.WATERMARK = (process.env.BRANCH === 'prod') ? '' : 'NOT VALID';
+  document.PLATES_DATA = plateData as MinistryPlate;
+  document.Watermark = (process.env.BRANCH === 'prod') ? '' : 'NOT VALID';
   document.Reissue = { Reason: techRecord.plates.plateReasonForIssue };
 
   return document;
