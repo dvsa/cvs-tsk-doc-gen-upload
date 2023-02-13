@@ -40,17 +40,22 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
 const generateAndUpload = async (documentData, request: Request, fileName: string) => {
   try {
     logger.info('Starting lambda to lambda invoke');
-    const result = await invokePdfGenLambda(documentData, request.documentName);
+    const response = await invokePdfGenLambda(documentData, request.documentName);
     logger.info('Finished lambda to lambda invoke, checking response');
+
+    const responseString: string = new TextDecoder().decode(response.Payload);
+    const responseJson = JSON.parse(responseString);
+    const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
+
     const metaData = {
       'date-of-issue': Date.now().toString(),
       'cert-type': request.documentName,
       'file-format': 'pdf',
-      'file-size': result.Payload.byteLength.toString(),
+      'file-size': responseBuffer.byteLength.toString(),
       'should-email-certificate': 'false',
     };
     logger.info(`Starting s3 upload for file: ${process.env.BRANCH}/${fileName}`);
-    await uploadPdfToS3(result.Payload, metaData, fileName);
+    await uploadPdfToS3(responseBuffer, metaData, fileName);
     logger.info('Finished s3 upload');
   } catch (error) {
     logger.error(error);
