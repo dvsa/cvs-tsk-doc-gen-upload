@@ -38,27 +38,20 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
 
 const generateAndUpload = async (documentData, request: Request, fileName: string) => {
   try {
-    console.log('Starting lambda to lambda invoke: (data)', documentData);
-    console.log('documentData', documentData);
-    console.log('request:', request);
-    console.log('filename', fileName);
+    logger.info('Starting lambda to lambda invoke: (data)', documentData);
     const response = await invokePdfGenLambda(documentData, request.documentName);
     logger.info('Finished lambda to lambda invoke, checking response');
 
     if (response.StatusCode !== 200) {
       throw new Error(`Error invoking doc gen (lambda call failed with ${response.StatusCode}`);
-    };
-
+    }
     const responseString: string = new TextDecoder().decode(response.Payload);
-    console.log('response (as string):', responseString);
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const responseJson: any = JSON.parse(responseString);
-    console.log('response (as JSON):', responseJson);
-
     if (responseJson.statusCode !== 200) {
-      throw new Error(`Error returned from doc gen (${responseJson.statusCode}): ${responseJson.body}`)
-    };
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      throw new Error(`Error returned from doc gen (${responseJson.statusCode}): ${responseJson.body}`);
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
