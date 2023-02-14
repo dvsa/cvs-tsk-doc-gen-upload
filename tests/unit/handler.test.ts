@@ -4,9 +4,10 @@ import * as Handler from '../../src/handler';
 import pass from '../resources/sqsPass.json';
 import { addMiddleware, generateVehicle } from './unitTestUtils';
 import * as DocumentGeneration from '../../src/models/document';
-import { invokePdfGenLambda, uploadPdfToS3 } from '../../src/handler';
 import { generateMinistryDocumentModel } from '../../src/models/document';
 import { PlateReasonForIssue } from '../../src/models/request';
+import { invokePdfGenLambda } from '../../src/services/Lamba.service';
+import { uploadPdfToS3 } from '../../src/services/S3.service';
 
 describe('handler tests', () => {
   const plate = {

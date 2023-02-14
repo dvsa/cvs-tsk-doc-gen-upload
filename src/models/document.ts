@@ -43,9 +43,12 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Pl
     plateData.MaxLoadOnCoupling = techRecord.maxLoadOnCoupling.toString();
     plateData.FrontAxleTo5thWheelCouplingMin = techRecord.frontAxleTo5thWheelCouplingMin.toString();
     plateData.FrontAxleTo5thWheelCouplingMax = techRecord.frontAxleTo5thWheelCouplingMax.toString();
+    plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk.toString();
+  }
+
+  if (techRecord.vehicleType) {
     plateData.CouplingCenterToRearTrlMax = techRecord.couplingCenterToRearTrlMax.toString();
     plateData.CouplingCenterToRearTrlMin = techRecord.couplingCenterToRearTrlMin.toString();
-    plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk.toString();
   }
 
   document.PLATES_DATA = plateData as MinistryPlate;
