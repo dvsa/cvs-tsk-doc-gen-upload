@@ -67,7 +67,7 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
     await uploadPdfToS3(responseBuffer, metaData, fileName);
     logger.info('Finished s3 upload');
   } catch (error) {
-    logger.error(error);
+    logger.error(error.message);
     throw error;
   }
 };
