@@ -1,4 +1,5 @@
 import { Handler, SQSBatchResponse, SQSEvent } from 'aws-lambda';
+import { TextDecoder } from 'util';
 import logger from './observability/logger';
 import { generateMinistryDocumentModel } from './models/document';
 import { Request } from './models/request';
@@ -38,10 +39,15 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
 const generateAndUpload = async (documentData, request: Request, fileName: string) => {
   try {
     logger.info('Starting lambda to lambda invoke');
-    const result = await invokePdfGenLambda(documentData, request.documentName);
-    logger.info('Finishing lambda to lambda invoke');
-    logger.info(JSON.stringify(result));
-    const responseBuffer: Buffer = Buffer.from(result.Payload.toString(), 'base64');
+    const response = await invokePdfGenLambda(documentData, request.documentName);
+    logger.info('Finished lambda to lambda invoke, checking response');
+
+    const responseString: string = new TextDecoder().decode(response.Payload);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const responseJson: any = JSON.parse(responseString);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
+
     const metaData = {
       'date-of-issue': Date.now().toString(),
       'cert-type': request.documentName,
@@ -49,9 +55,9 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
       'file-size': responseBuffer.byteLength.toString(),
       'should-email-certificate': 'false',
     };
-    logger.info(`Starting s3 upload for file: ${fileName}`);
+    logger.info(`Starting s3 upload for file: ${process.env.BRANCH}/${fileName}`);
     await uploadPdfToS3(responseBuffer, metaData, fileName);
-    logger.info('Finishing s3 upload');
+    logger.info('Finished s3 upload');
   } catch (error) {
     logger.error(error);
     throw error;
