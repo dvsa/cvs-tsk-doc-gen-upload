@@ -21,5 +21,6 @@ export const uploadPdfToS3 = async (
     .catch((err) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       logger.error(err.message);
+      throw new Error(err.message as string);
     });
 };
