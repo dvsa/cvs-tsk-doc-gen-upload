@@ -43,6 +43,7 @@ const generateAndUpload = async (documentData, request: Request, fileName: strin
     logger.info('Finished lambda to lambda invoke, checking response');
 
     if (response.StatusCode !== 200) {
+      logger.error(`Error invoking doc gen (lambda call failed with ${response.StatusCode}`);
       throw new Error(`Error invoking doc gen (lambda call failed with ${response.StatusCode}`);
     }
     const responseString: string = new TextDecoder().decode(response.Payload);
