@@ -46,7 +46,7 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Pl
     plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk?.toString();
   }
 
-  if (techRecord.vehicleType) {
+  if (techRecord.vehicleType === 'trl') {
     plateData.CouplingCenterToRearTrlMax = techRecord.couplingCenterToRearTrlMax?.toString();
     plateData.CouplingCenterToRearTrlMin = techRecord.couplingCenterToRearTrlMin?.toString();
   }

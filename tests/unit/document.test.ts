@@ -89,4 +89,27 @@ describe('Document tests', () => {
     const document = generateMinistryDocumentModel(vehicle, plate);
     expect(document.Watermark).toBe('');
   });
+  it('should have trl attributes if vehicle is a trailer', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.vehicleType = 'trl';
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+  it('should create attributes if vehicle is missing properties', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.vehicleType = 'trl';
+    vehicle.techRecord.manufactureYear = undefined;
+    vehicle.techRecord.grossGbWeight = undefined;
+    vehicle.techRecord.grossEecWeight = undefined;
+    vehicle.techRecord.grossDesignWeight = undefined;
+    vehicle.techRecord.trainGbWeight = undefined;
+    vehicle.techRecord.trainEecWeight = undefined;
+    vehicle.techRecord.trainDesignWeight = undefined;
+    vehicle.techRecord.maxTrainGbWeight = undefined;
+    vehicle.techRecord.maxTrainEecWeight = undefined;
+    vehicle.techRecord.dimensions.length = undefined;
+    vehicle.techRecord.dimensions.width = undefined;
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
 });
