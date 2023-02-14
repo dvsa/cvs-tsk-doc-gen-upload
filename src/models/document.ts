@@ -23,32 +23,32 @@ export const generateMinistryDocumentModel = (vehicle: IVehicleRecord, plate: Pl
     Model: techRecord.model,
     FunctionCode: techRecord.functionCode,
     RegnDate: techRecord.regnDate,
-    ManufactureYear: techRecord.manufactureYear.toString(),
-    GrossGbWeight: techRecord.grossGbWeight.toString(),
-    GrossEecWeight: techRecord.grossEecWeight.toString(),
-    GrossDesignWeight: techRecord.grossDesignWeight.toString(),
-    TrainGbWeight: techRecord.trainGbWeight.toString(),
-    TrainEecWeight: techRecord.trainEecWeight.toString(),
-    TrainDesignWeight: techRecord.trainDesignWeight.toString(),
-    MaxTrainGbWeight: techRecord.maxTrainGbWeight.toString(),
-    MaxTrainEecWeight: techRecord.maxTrainEecWeight.toString(),
-    DimensionLength: techRecord.dimensions.length.toString(),
-    DimensionWidth: techRecord.dimensions.width.toString(),
+    ManufactureYear: techRecord.manufactureYear?.toString(),
+    GrossGbWeight: techRecord.grossGbWeight?.toString(),
+    GrossEecWeight: techRecord.grossEecWeight?.toString(),
+    GrossDesignWeight: techRecord.grossDesignWeight?.toString(),
+    TrainGbWeight: techRecord.trainGbWeight?.toString(),
+    TrainEecWeight: techRecord.trainEecWeight?.toString(),
+    TrainDesignWeight: techRecord.trainDesignWeight?.toString(),
+    MaxTrainGbWeight: techRecord.maxTrainGbWeight?.toString(),
+    MaxTrainEecWeight: techRecord.maxTrainEecWeight?.toString(),
+    DimensionLength: techRecord.dimensions.length?.toString(),
+    DimensionWidth: techRecord.dimensions.width?.toString(),
     PlateIssueDate: plate.plateIssueDate,
     TyreUseCode: techRecord.tyreUseCode,
     Axles: populateAxles(techRecord.axles),
   };
 
   if (techRecord.vehicleType === 'hgv') {
-    plateData.MaxLoadOnCoupling = techRecord.maxLoadOnCoupling.toString();
-    plateData.FrontAxleTo5thWheelCouplingMin = techRecord.frontAxleTo5thWheelCouplingMin.toString();
-    plateData.FrontAxleTo5thWheelCouplingMax = techRecord.frontAxleTo5thWheelCouplingMax.toString();
-    plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk.toString();
+    plateData.MaxLoadOnCoupling = techRecord.maxLoadOnCoupling?.toString();
+    plateData.FrontAxleTo5thWheelCouplingMin = techRecord.frontAxleTo5thWheelCouplingMin?.toString();
+    plateData.FrontAxleTo5thWheelCouplingMax = techRecord.frontAxleTo5thWheelCouplingMax?.toString();
+    plateData.SpeedLimiterMrk = techRecord.speedLimiterMrk?.toString();
   }
 
   if (techRecord.vehicleType) {
-    plateData.CouplingCenterToRearTrlMax = techRecord.couplingCenterToRearTrlMax.toString();
-    plateData.CouplingCenterToRearTrlMin = techRecord.couplingCenterToRearTrlMin.toString();
+    plateData.CouplingCenterToRearTrlMax = techRecord.couplingCenterToRearTrlMax?.toString();
+    plateData.CouplingCenterToRearTrlMin = techRecord.couplingCenterToRearTrlMin?.toString();
   }
 
   document.PLATES_DATA = plateData as MinistryPlate;
@@ -69,9 +69,9 @@ const populateAxles = (axles: IAxle[]): Axles => {
   for (let i = 0; i < termincatingCondition; i++) {
     plateAxles[`Axle${i + 1}`] = {
       Weights: {
-        GbWeight: axles[i].weights.gbWeight.toString(),
-        EecWeight: axles[i].weights.eecWeight.toString(),
-        DesignWeight: axles[i].weights.designWeight.toString(),
+        GbWeight: axles[i].weights.gbWeight?.toString(),
+        EecWeight: axles[i].weights.eecWeight?.toString(),
+        DesignWeight: axles[i].weights.designWeight?.toString(),
       },
       Tyres: {
         TyreSize: axles[i].tyres.tyreSize,
