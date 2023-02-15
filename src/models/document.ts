@@ -69,14 +69,14 @@ const populateAxles = (axles: IAxle[]): Axles => {
   for (let i = 0; i < termincatingCondition; i++) {
     plateAxles[`Axle${i + 1}`] = {
       Weights: {
-        GbWeight: axles[i].weights.gbWeight?.toString(),
-        EecWeight: axles[i].weights.eecWeight?.toString(),
-        DesignWeight: axles[i].weights.designWeight?.toString(),
+        GbWeight: axles[i].weights?.gbWeight?.toString(),
+        EecWeight: axles[i].weights?.eecWeight?.toString(),
+        DesignWeight: axles[i].weights?.designWeight?.toString(),
       },
       Tyres: {
-        TyreSize: axles[i].tyres.tyreSize,
-        PlyRating: axles[i].tyres.plyRating,
-        FitmentCode: axles[i].tyres.fitmentCode,
+        TyreSize: axles[i].tyres?.tyreSize,
+        PlyRating: axles[i].tyres?.plyRating,
+        FitmentCode: axles[i].tyres?.fitmentCode,
       },
     };
   }
