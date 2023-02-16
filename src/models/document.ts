@@ -1,5 +1,7 @@
 import { Axles, MinistryPlate } from './ministryPlate';
-import { Plates } from './request';
+import { Letter, Plates } from './request';
+import { TrlServiceLetter } from './trlServiceLetter';
+import { IAxle, IVehicleRecord } from './vehicleTechRecord';
 
 export interface MinistryDocument {
   Reissue?: {
@@ -81,4 +83,18 @@ const populateAxles = (axles: IAxle[]): Axles => {
     };
   }
   return plateAxles;
+};
+
+export const generateTrlIntoServiceLetter = (vehicle: IVehicleRecord, letter: Letter) => {
+  const { techRecord } = vehicle;
+  const letterDocument: TrlServiceLetter = {
+    Vin: vehicle.vin,
+    TrailerID: vehicle.trailerId,
+    ApplicantDetails: techRecord.applicantDetails,
+    LetterDateRequested: letter.letterDateRequested,
+    TypeApprovalNumber: techRecord.approvalTypeNumber,
+    ParagraphID: letter.paragraphID,
+  };
+
+  return letterDocument;
 };

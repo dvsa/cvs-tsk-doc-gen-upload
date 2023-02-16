@@ -1,4 +1,4 @@
-interface IVehicleRecord {
+export interface IVehicleRecord {
   primaryVrm: string;
   vin: string;
   systemNumber: string;
@@ -69,6 +69,7 @@ interface ITechRecord {
   frontAxleTo5thWheelCouplingMax: number;
   couplingCenterToRearTrlMin: number;
   couplingCenterToRearTrlMax: number;
+  applicantDetails: IApplicantDetails;
 }
 
 interface IPlates {
@@ -78,7 +79,7 @@ interface IPlates {
   plateIssuer: string;
 }
 
-interface IAxle {
+export interface IAxle {
   parkingBrakeMrk: boolean;
   axleNumber: number;
   weights: {
@@ -112,3 +113,14 @@ type IDimensions = {
     },
   ];
 };
+
+export interface IApplicantDetails {
+  name?: string;
+  address1?: string;
+  address2?: string;
+  postTown?: string;
+  address3?: string;
+  postCode?: string;
+  telephoneNumber?: string;
+  emailAddress?: string;
+}

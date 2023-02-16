@@ -1,3 +1,5 @@
+import { IVehicleRecord } from '../../src/models/vehicleTechRecord';
+
 export const generateVehicle = () => ({
   primaryVrm: '123',
   vin: '123',

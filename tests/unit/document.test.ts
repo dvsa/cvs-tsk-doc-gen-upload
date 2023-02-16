@@ -1,5 +1,6 @@
 import { generateMinistryDocumentModel } from '../../src/models/document';
 import { PlateReasonForIssue } from '../../src/models/request';
+import { IAxle } from '../../src/models/vehicleTechRecord';
 import { generateVehicle } from './unitTestUtils';
 
 describe('Document tests', () => {
