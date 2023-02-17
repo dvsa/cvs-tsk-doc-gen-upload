@@ -95,6 +95,152 @@ describe('Document tests', () => {
     const document = generateMinistryDocumentModel(vehicle, plate);
     expect(document).toBeTruthy();
   });
+
+  it('should handle 0 axles', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.axles = [] as IAxle[];
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+
+  it('should handle 1 axle', () => {
+    const vehicle = generateVehicle();
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+
+  it('should handle 2 axles', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.axles = [
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+    ] as IAxle[];
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+
+  it('should handle 3 axles', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.axles = [
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+    ] as IAxle[];
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+
+  it('should handle 4 axles', () => {
+    const vehicle = generateVehicle();
+    vehicle.techRecord.axles = [
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+      {
+        tyres: {
+          tyreSize: '1',
+          plyRating: '2',
+          fitmentCode: '3',
+        },
+        weights: {
+          gbWeight: 123,
+          eecWeight: 123,
+          designWeight: 123,
+        },
+      },
+    ] as IAxle[];
+    const document = generateMinistryDocumentModel(vehicle, plate);
+    expect(document).toBeTruthy();
+  });
+
   it('should create attributes if vehicle is missing properties', () => {
     const vehicle = generateVehicle();
     vehicle.techRecord.vehicleType = 'trl';

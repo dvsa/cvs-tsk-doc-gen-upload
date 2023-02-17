@@ -65,8 +65,8 @@ const populateAxles = (axles: IAxle[]): Axles => {
     Axle3: {},
     Axle4: {},
   } as Axles;
-  const termincatingCondition = axles.length < 3 ? axles.length : 4;
-  for (let i = 0; i < termincatingCondition; i++) {
+  const terminatingCondition = Math.min(axles.length, 4);
+  for (let i = 0; i < terminatingCondition; i++) {
     plateAxles[`Axle${i + 1}`] = {
       Weights: {
         GbWeight: axles[i].weights?.gbWeight?.toString(),
