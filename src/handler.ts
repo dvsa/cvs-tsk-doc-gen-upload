@@ -1,7 +1,7 @@
 import { Handler, SQSBatchResponse, SQSEvent } from 'aws-lambda';
 import { TextDecoder } from 'util';
 import logger from './observability/logger';
-import { generateMinistryDocumentModel } from './models/document';
+import { generateMinistryDocumentModel, generateTrlIntoServiceLetter } from './models/document';
 import { Request } from './models/request';
 import { DocumentType } from './models/documentName.enum';
 import { invokePdfGenLambda } from './services/Lamba.service';
@@ -21,6 +21,9 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
     if (request.documentName === DocumentType.MINISTRY || request.documentName === DocumentType.MINISTRY_TRL) {
       documentData = generateMinistryDocumentModel(request.vehicle, request.plate);
       fileName = `plate_${request.plate.plateSerialNumber}`;
+    } else if (request.documentName === DocumentType.TRL_INTO_SERVICE) {
+      documentData = generateTrlIntoServiceLetter(request.vehicle, request.letter);
+      fileName = `letter_${request.vehicle.systemNumber}_${request.vehicle.vin}`;
     } else {
       throw new Error('Document Type not supported');
     }
