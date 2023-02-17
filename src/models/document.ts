@@ -93,7 +93,7 @@ export const generateTrlIntoServiceLetter = (vehicle: IVehicleRecord, letter: Le
     ApplicantDetails: techRecord.applicantDetails,
     LetterDateRequested: letter.letterDateRequested,
     TypeApprovalNumber: techRecord.approvalTypeNumber,
-    ParagraphID: letter.paragraphID,
+    ParagraphId: letter.paragraphId,
   };
 
   return letterDocument;

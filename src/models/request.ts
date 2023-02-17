@@ -24,17 +24,17 @@ export enum PlateReasonForIssue {
 
 export interface Letter {
   letterType: LetterType;
-  paragraphID: ParagraphID;
+  paragraphId: ParagraphId;
   letterIssuer: string;
   letterDateRequested: string;
 }
 
 export enum LetterType {
-  TRL_AUTHORISATION = 'trailer authorisation',
+  TRL_ACCEPTANCE = 'trailer acceptance',
   TRL_REJECTION = 'trailer rejection',
 }
 
-export enum ParagraphID {
+export enum ParagraphId {
   PARAGRAPH_3 = 3,
   PARAGRAPH_4 = 4,
   PARAGRAPH_5 = 5,

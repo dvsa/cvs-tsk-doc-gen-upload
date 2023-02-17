@@ -6,5 +6,5 @@ export type TrlServiceLetter = {
   ApplicantDetails: IApplicantDetails;
   LetterDateRequested: string;
   TypeApprovalNumber: string;
-  ParagraphID: number;
+  ParagraphId: number;
 };
