@@ -41,7 +41,7 @@ const handler: Handler = async (event: SQSEvent): Promise<SQSBatchResponse> => {
 
 const generateAndUpload = async (documentData, request: Request, fileName: string) => {
   try {
-    logger.info('Starting lambda to lambda invoke: (data)', documentData);
+    logger.info(`Starting lambda to lambda invoke (data): ${JSON.stringify(documentData)}`);
     const response = await invokePdfGenLambda(documentData, request.documentName);
     logger.info('Finished lambda to lambda invoke, checking response');
 
