@@ -88,12 +88,12 @@ const populateAxles = (axles: IAxle[]): Axles => {
 export const generateTrlIntoServiceLetter = (vehicle: IVehicleRecord, letter: Letter) => {
   const { techRecord } = vehicle;
   const letterDocument: TrlServiceLetter = {
-    Vin: vehicle.vin,
-    TrailerID: vehicle.trailerId,
-    ApplicantDetails: techRecord.applicantDetails,
-    LetterDateRequested: letter.letterDateRequested,
-    TypeApprovalNumber: techRecord.approvalTypeNumber,
-    ParagraphId: letter.paragraphId,
+    vin: vehicle.vin,
+    trailerId: vehicle.trailerId,
+    applicantDetails: techRecord.applicantDetails,
+    letterDateRequested: letter.letterDateRequested,
+    approvalTypeNumber: techRecord.approvalTypeNumber,
+    paragraphId: letter.paragraphId,
   };
 
   return letterDocument;

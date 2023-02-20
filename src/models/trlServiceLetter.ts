@@ -1,10 +1,10 @@
 import { IApplicantDetails } from './vehicleTechRecord';
 
 export type TrlServiceLetter = {
-  Vin: string;
-  TrailerID: string;
-  ApplicantDetails: IApplicantDetails;
-  LetterDateRequested: string;
-  TypeApprovalNumber: string;
-  ParagraphId: number;
+  vin: string;
+  trailerId: string;
+  applicantDetails: IApplicantDetails;
+  letterDateRequested: string;
+  approvalTypeNumber: string;
+  paragraphId: number;
 };
