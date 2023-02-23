@@ -4,7 +4,7 @@ import * as Handler from '../../src/handler';
 import pass from '../resources/sqsPass.json';
 import { addMiddleware, generateVehicle } from './unitTestUtils';
 import * as DocumentGeneration from '../../src/models/documentModel.factory';
-import { ReasonForIssue } from "../../src/enums/reasonForIssue.enum";
+import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
 import { invokePdfGenLambda } from '../../src/services/Lamba.service';
 import { uploadPdfToS3 } from '../../src/services/S3.service';
 import { Request } from '../../src/models/request';
@@ -21,7 +21,7 @@ describe('handler tests', () => {
       plateIssueDate: new Date().toISOString(),
       plateReasonForIssue: ReasonForIssue.DESTROYED,
       plateIssuer: 'user',
-    }
+    },
   };
 
   beforeEach(() => {

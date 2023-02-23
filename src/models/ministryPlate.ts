@@ -1,8 +1,8 @@
-import { Request } from "./request";
-import { DocumentName } from "../enums/documentName.enum";
-import { VehicleType } from "../enums/vehicleType.enum";
-import { DocumentModel } from "./documentModel";
-import { IAxle } from "./vehicleTechRecord";
+import { Request } from './request';
+import { DocumentName } from '../enums/documentName.enum';
+import { VehicleType } from '../enums/vehicleType.enum';
+import { DocumentModel } from './documentModel';
+import { IAxle } from './vehicleTechRecord';
 
 export type MinistryPlate = {
   PlateSerialNumber: string;
@@ -113,8 +113,8 @@ export class MinistryPlateDocument extends DocumentModel {
     this.Reissue = { Reason: plate.plateReasonForIssue };
 
     // S3 metadata
-    this.metaData['vrm'] = vehicle.primaryVrm;
-  };
+    this.metaData.vrm = vehicle.primaryVrm;
+  }
 
   private populateAxles = (axles: IAxle[]): Axles => {
     const plateAxles: Axles = {
@@ -144,6 +144,8 @@ export class MinistryPlateDocument extends DocumentModel {
   Reissue?: {
     Reason: string;
   };
+
   PLATES_DATA: MinistryPlate;
+
   Watermark: string;
-};
+}
