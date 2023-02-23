@@ -7,7 +7,7 @@ export class DocumentModel {
     this.Watermark = process.env.BRANCH === 'prod' ? '' : 'NOT VALID';
 
     this.metaData.email = recipientEmailAddress;
-    this.metaData['should-email-certificate'] = `${process.env.SHOULD_EMAIL_CERTIFICATE}`;
+    this.metaData['should-email-certificate'] = process.env.SHOULD_EMAIL_CERTIFICATE;
   }
 
   Watermark: string;
@@ -27,7 +27,7 @@ export class DocumentModel {
 
   set filename(value: string) {
     this._filename = value;
-    this.metaData['link-to-document'] = `${process.env.DOCUMENT_LINK_URL}/${value}`;
+    this.metaData['link-to-document'] = `${process.env.DOCUMENT_LINK_URL}${value}`;
   }
 
   set fileSize(value: number) { this.metaData['file-size'] = value.toString(); }

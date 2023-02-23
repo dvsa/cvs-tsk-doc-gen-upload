@@ -269,8 +269,9 @@ describe('Document Model tests', () => {
     process.env.DOCUMENT_LINK_URL = 'https://unit-testing.jest.example.com/metadata/documents/';
 
     const document = new MinistryPlateDocument(request);
+
     expect(document.metaData['document-type']).toBe(DocumentName.MINISTRY);
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
-    expect(document.metaData['link-to-document']).toBe(`${process.env.DOCUMENT_LINK_URL}/${document.filename}`);
+    expect(document.metaData['link-to-document']).toBe(`${process.env.DOCUMENT_LINK_URL}${document.filename}`);
   });
 });

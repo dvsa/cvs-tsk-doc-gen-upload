@@ -28,6 +28,8 @@ describe('Document Model tests', () => {
   });
 
   it('should add S3 metadata', () => {
+    process.env.DOCUMENT_LINK_URL = 'https://unit-testing.jest.example.com/metadata/documents/';
+
     const document = new TrailerIntoServiceDocument(request);
 
     expect(document.metaData['document-type']).toBe(DocumentName.TRAILER_INTO_SERVICE);
@@ -36,5 +38,6 @@ describe('Document Model tests', () => {
     expect(document.metaData['approval-type-number']).toBe(request.vehicle.techRecord.approvalTypeNumber);
     expect(document.metaData['date-of-issue']).toBe(request.letter.letterDateRequested);
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
+    expect(document.metaData['link-to-document']).toBe(`${process.env.DOCUMENT_LINK_URL}${document.filename}`);
   });
 });
