@@ -1,25 +1,20 @@
+import { ReasonForIssue } from '../enums/reasonForIssue.enum';
+import { LetterType } from '../enums/letterType.enum';
 import { IVehicleRecord } from './vehicleTechRecord';
+import { ParagraphId } from '../enums/paragraphId.enum';
 
 export interface Request {
   documentName: string;
   vehicle: IVehicleRecord;
+  recipientEmailAddress: string;
   plate?: Plates;
   letter?: Letter;
 }
 export interface Plates {
   plateSerialNumber?: string;
   plateIssueDate?: string;
-  plateReasonForIssue?: PlateReasonForIssue;
+  plateReasonForIssue?: ReasonForIssue;
   plateIssuer?: string;
-}
-
-export enum PlateReasonForIssue {
-  FREE_REPLACEMENT = 'Free replacement',
-  REPLACEMENT = 'Replacement',
-  DESTROYED = 'Destroyed',
-  PROVISIONAL = 'Provisional',
-  ORIGINAL = 'Original',
-  MANUAL = 'Manual',
 }
 
 export interface Letter {
@@ -27,17 +22,4 @@ export interface Letter {
   paragraphId: ParagraphId;
   letterIssuer: string;
   letterDateRequested: string;
-}
-
-export enum LetterType {
-  TRL_ACCEPTANCE = 'trailer acceptance',
-  TRL_REJECTION = 'trailer rejection',
-}
-
-export enum ParagraphId {
-  PARAGRAPH_3 = 3,
-  PARAGRAPH_4 = 4,
-  PARAGRAPH_5 = 5,
-  PARAGRAPH_6 = 6,
-  PARAGRAPH_7 = 7,
 }

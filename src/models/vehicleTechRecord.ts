@@ -122,5 +122,4 @@ export interface IApplicantDetails {
   address3?: string;
   postCode?: string;
   telephoneNumber?: string;
-  emailAddress?: string;
 }

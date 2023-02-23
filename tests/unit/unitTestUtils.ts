@@ -13,7 +13,7 @@ export const generateVehicle = () => ({
       dtpNumber: '',
     },
     variantNumber: '',
-    approvalTypeNumber: '',
+    approvalTypeNumber: 'APPROVAL-TYPE-NUMBER/1234567',
     make: '',
     model: '',
     functionCode: '',
@@ -52,6 +52,14 @@ export const generateVehicle = () => ({
         },
       },
     ],
+    applicantDetails: {
+      name: 'Dr T Railer',
+      address1: 'Address Line 1',
+      address2: 'Address Line 2',
+      postTown: 'Postal Town',
+      address3: 'Address Line 3',
+      postcode: 'PO1 1ST',
+    },
   },
 } as unknown as IVehicleRecord);
 
