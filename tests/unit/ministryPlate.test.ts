@@ -92,7 +92,7 @@ describe('Document Model tests', () => {
       },
     ] as IAxle[];
     const document = new MinistryPlateDocument(request);
-    expect(document.PLATES_DATA.Axles.Axle4.Weights.GbWeight).toBe('123');
+    expect(document.PLATES_DATA.axles.axle4.weights.gbWeight).toBe('123');
   });
 
   it('should apply no water mark for prod', () => {
