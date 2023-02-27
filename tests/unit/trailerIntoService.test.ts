@@ -36,7 +36,7 @@ describe('Document Model tests', () => {
     expect(document.metaData.vin).toBe(request.vehicle.vin);
     expect(document.metaData['trailer-id']).toBe(request.vehicle.trailerId);
     expect(document.metaData['approval-type-number']).toBe(request.vehicle.techRecord.approvalTypeNumber);
-    expect(document.metaData['date-of-issue']).toBe(request.letter.letterDateRequested);
+    expect(document.metaData['date-of-issue']).toBe('23/02/2023');
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
   });
 });

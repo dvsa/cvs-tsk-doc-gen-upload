@@ -16,7 +16,7 @@ describe('Document Model tests', () => {
       recipientEmailAddress: 'customer@example.com',
       plate: {
         plateSerialNumber: '12345',
-        plateIssueDate: new Date().toISOString(),
+        plateIssueDate: '2023-02-27T12:34:56.789Z',
         plateReasonForIssue: ReasonForIssue.DESTROYED,
         plateIssuer: 'user',
       },
@@ -271,6 +271,7 @@ describe('Document Model tests', () => {
     const document = new MinistryPlateDocument(request);
 
     expect(document.metaData['document-type']).toBe(DocumentName.MINISTRY);
+    expect(document.metaData['date-of-issue']).toBe('27/02/2023');
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
   });
 });

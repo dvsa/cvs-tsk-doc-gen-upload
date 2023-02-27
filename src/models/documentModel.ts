@@ -1,4 +1,6 @@
 /* eslint-disable no-underscore-dangle */
+import { format, parseISO } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 import { DocumentName } from '../enums/documentName.enum';
 
 export class DocumentModel {
@@ -24,7 +26,10 @@ export class DocumentModel {
 
   set fileSize(value: number) { this.metaData['file-size'] = value.toString(); }
 
-  set dateOfIssue(value: string) { this.metaData['date-of-issue'] = value; }
+  set dateOfIssue(value: string) {
+    // date is a timestamp
+    this.metaData['date-of-issue'] = format(parseISO(value), 'dd/MM/yyyy', { locale: enGB });
+  }
 
   metaData: Record<string, string> = {
     'file-format': 'pdf',
