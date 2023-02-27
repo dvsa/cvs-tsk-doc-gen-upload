@@ -3,18 +3,25 @@ import { InvokeCommandOutput, LambdaClient } from '@aws-sdk/client-lambda';
 import * as Handler from '../../src/handler';
 import pass from '../resources/sqsPass.json';
 import { addMiddleware, generateVehicle } from './unitTestUtils';
-import * as DocumentGeneration from '../../src/models/document';
-import { generateMinistryDocumentModel } from '../../src/models/document';
-import { PlateReasonForIssue } from '../../src/models/request';
+import * as DocumentGeneration from '../../src/models/documentModel.factory';
+import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
 import { invokePdfGenLambda } from '../../src/services/Lamba.service';
 import { uploadPdfToS3 } from '../../src/services/S3.service';
+import { Request } from '../../src/models/request';
+import { MinistryPlateDocument } from '../../src/models/ministryPlate';
+import { DocumentName } from '../../src/enums/documentName.enum';
 
 describe('handler tests', () => {
-  const plate = {
-    plateSerialNumber: '12345',
-    plateIssueDate: new Date().toISOString(),
-    plateReasonForIssue: PlateReasonForIssue.DESTROYED,
-    plateIssuer: 'user',
+  const request: Request = {
+    documentName: DocumentName.MINISTRY,
+    vehicle: generateVehicle(),
+    recipientEmailAddress: 'customer@example.com',
+    plate: {
+      plateSerialNumber: '12345',
+      plateIssueDate: new Date().toISOString(),
+      plateReasonForIssue: ReasonForIssue.DESTROYED,
+      plateIssuer: 'user',
+    },
   };
 
   beforeEach(() => {
@@ -36,13 +43,13 @@ describe('handler tests', () => {
     sqsEvent.Records[0].body = JSON.stringify({
       documentName: 'NOTSUPPORTED',
       vehicle: {},
-      plate,
+      plate: {},
     });
     try {
       await Handler.handler(sqsEvent, undefined, () => true);
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(err.message).toBe('Document Type not supported');
+      expect(err.message).toBe('Document Type is not supported');
     }
   });
 
@@ -51,10 +58,10 @@ describe('handler tests', () => {
     sqsEvent.Records[0].body = JSON.stringify({
       documentName: 'VTG6_VTG7',
       vehicle: generateVehicle(),
-      plate,
+      plate: request.plate,
     });
 
-    const ministryPlateSpy = jest.spyOn(DocumentGeneration, 'generateMinistryDocumentModel');
+    const ministryPlateSpy = jest.spyOn(DocumentGeneration, 'getDocumentFromRequest');
     await Handler.handler(sqsEvent, undefined, () => true);
     expect(ministryPlateSpy).toHaveBeenCalledTimes(1);
   });
@@ -64,13 +71,14 @@ describe('handler tests', () => {
       const lambdaClient = new LambdaClient({ region: 'eu-west-1' });
       lambdaClient.middlewareStack.add(addMiddleware(<InvokeCommandOutput>{ StatusCode: 200 }));
       const res = await invokePdfGenLambda(
-        generateMinistryDocumentModel(generateVehicle(), plate),
+        new MinistryPlateDocument(request),
         'VTG6_VTG7',
         lambdaClient,
       );
       expect(res.StatusCode).toBe(200);
     });
   });
+
   describe('uploadPdfToS3', () => {
     it('should return a PutObjectCommandOutput on success', async () => {
       const s3Client = new S3({ region: 'eu-west-1' });

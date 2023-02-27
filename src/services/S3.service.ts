@@ -4,7 +4,7 @@ import logger from '../observability/logger';
 
 export const uploadPdfToS3 = async (
   data: Buffer | Uint8Array | Blob | string | Readable,
-  metadata: Record<string, string>,
+  metaData: Record<string, string>,
   fileName: string,
   s3?: S3,
 ): Promise<any> => {
@@ -15,7 +15,7 @@ export const uploadPdfToS3 = async (
         Bucket: process.env.BUCKET_NAME,
         Key: `${process.env.BRANCH}/${fileName}.pdf`,
         Body: data,
-        Metadata: metadata,
+        Metadata: metaData,
       }),
     )
     .catch((err) => {

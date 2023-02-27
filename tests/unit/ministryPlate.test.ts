@@ -1,25 +1,35 @@
-import { generateMinistryDocumentModel } from '../../src/models/document';
-import { PlateReasonForIssue } from '../../src/models/request';
+// import { ReasonForIssue } from "../../src/enums/reasonForIssue.enum";
 import { IAxle } from '../../src/models/vehicleTechRecord';
 import { generateVehicle } from './unitTestUtils';
+import { MinistryPlateDocument } from '../../src/models/ministryPlate';
+import { Request } from '../../src/models/request';
+import { DocumentName } from '../../src/enums/documentName.enum';
+import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
 
-describe('Document tests', () => {
-  const plate = {
-    plateSerialNumber: '12345',
-    plateIssueDate: new Date().toISOString(),
-    plateReasonForIssue: PlateReasonForIssue.DESTROYED,
-    plateIssuer: 'user',
-  };
+describe('Document Model tests', () => {
+  let request: Request;
 
-  it('should convert a vehicle into a Ministry Document', () => {
-    const vehicle = generateVehicle();
-    const document = generateMinistryDocumentModel(vehicle, plate);
+  beforeEach(() => {
+    request = {
+      documentName: DocumentName.MINISTRY,
+      vehicle: generateVehicle(),
+      recipientEmailAddress: 'customer@example.com',
+      plate: {
+        plateSerialNumber: '12345',
+        plateIssueDate: new Date().toISOString(),
+        plateReasonForIssue: ReasonForIssue.DESTROYED,
+        plateIssuer: 'user',
+      },
+    };
+  });
+
+  it('should convert a request into a Ministry Plate Document', () => {
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should only populate 4 axles if there are more on the vehicle', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.axles = [
+    request.vehicle.techRecord.axles = [
       {
         tyres: {
           tyreSize: '1',
@@ -81,38 +91,35 @@ describe('Document tests', () => {
         },
       },
     ] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle, plate);
-    expect(document.PLATES_DATA.Axles.Axle4.Weights.GbWeight).toBe('123');
+    const document = new MinistryPlateDocument(request);
+    expect(document.PLATES_DATA.axles.axle4.weights.gbWeight).toBe('123');
   });
+
   it('should apply no water mark for prod', () => {
     process.env.BRANCH = 'prod';
-    const vehicle = generateVehicle();
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    const document = new MinistryPlateDocument(request);
     expect(document.Watermark).toBe('');
   });
+
   it('should have trl attributes if vehicle is a trailer', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.vehicleType = 'trl';
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    request.vehicle.techRecord.vehicleType = 'trl';
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should handle 0 axles', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.axles = [] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    request.vehicle.techRecord.axles = [] as IAxle[];
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should handle 1 axle', () => {
-    const vehicle = generateVehicle();
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should handle 2 axles', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.axles = [
+    request.vehicle.techRecord.axles = [
       {
         tyres: {
           tyreSize: '1',
@@ -138,13 +145,12 @@ describe('Document tests', () => {
         },
       },
     ] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should handle 3 axles', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.axles = [
+    request.vehicle.techRecord.axles = [
       {
         tyres: {
           tyreSize: '1',
@@ -182,7 +188,7 @@ describe('Document tests', () => {
         },
       },
     ] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
@@ -238,25 +244,33 @@ describe('Document tests', () => {
         },
       },
     ] as IAxle[];
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should create attributes if vehicle is missing properties', () => {
-    const vehicle = generateVehicle();
-    vehicle.techRecord.vehicleType = 'trl';
-    vehicle.techRecord.manufactureYear = undefined;
-    vehicle.techRecord.grossGbWeight = undefined;
-    vehicle.techRecord.grossEecWeight = undefined;
-    vehicle.techRecord.grossDesignWeight = undefined;
-    vehicle.techRecord.trainGbWeight = undefined;
-    vehicle.techRecord.trainEecWeight = undefined;
-    vehicle.techRecord.trainDesignWeight = undefined;
-    vehicle.techRecord.maxTrainGbWeight = undefined;
-    vehicle.techRecord.maxTrainEecWeight = undefined;
-    vehicle.techRecord.dimensions.length = undefined;
-    vehicle.techRecord.dimensions.width = undefined;
-    const document = generateMinistryDocumentModel(vehicle, plate);
+    request.vehicle.techRecord.vehicleType = 'trl';
+    request.vehicle.techRecord.manufactureYear = undefined;
+    request.vehicle.techRecord.grossGbWeight = undefined;
+    request.vehicle.techRecord.grossEecWeight = undefined;
+    request.vehicle.techRecord.grossDesignWeight = undefined;
+    request.vehicle.techRecord.trainGbWeight = undefined;
+    request.vehicle.techRecord.trainEecWeight = undefined;
+    request.vehicle.techRecord.trainDesignWeight = undefined;
+    request.vehicle.techRecord.maxTrainGbWeight = undefined;
+    request.vehicle.techRecord.maxTrainEecWeight = undefined;
+    request.vehicle.techRecord.dimensions.length = undefined;
+    request.vehicle.techRecord.dimensions.width = undefined;
+    const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
+  });
+
+  it('should add S3 metadata', () => {
+    process.env.DOCUMENT_LINK_URL = 'https://unit-testing.jest.example.com/metadata/documents/';
+
+    const document = new MinistryPlateDocument(request);
+
+    expect(document.metaData['document-type']).toBe(DocumentName.MINISTRY);
+    expect(document.metaData.email).toBe(request.recipientEmailAddress);
   });
 });
