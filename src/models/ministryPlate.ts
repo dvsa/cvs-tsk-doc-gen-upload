@@ -114,7 +114,7 @@ export class MinistryPlateDocument extends DocumentModel {
     this.Reissue = { Reason: plate.plateReasonForIssue };
 
     // S3 metadata
-    this.metaData.vrm = vehicle.primaryVrm;
+    this.metaData.vrm = vehicle.primaryVrm ?? vehicle.trailerId;
   }
 
   private populateAxles = (axles: IAxle[]): Axles => {
