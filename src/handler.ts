@@ -50,7 +50,7 @@ const generateAndUpload = async (document: DocumentModel, request: Request) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
-    document.fileSize = responseBuffer.byteLength;
+    document.setFileSize(responseBuffer.byteLength);
 
     logger.info(`Starting s3 upload for file: ${process.env.BRANCH}/${document.filename}`);
     await uploadPdfToS3(responseBuffer, document.metaData, document.filename);

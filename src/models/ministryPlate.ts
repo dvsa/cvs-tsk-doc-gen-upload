@@ -67,9 +67,9 @@ export class MinistryPlateDocument extends DocumentModel {
     const { vehicle, plate } = request;
     const { techRecord } = vehicle;
 
-    this.documentType = DocumentName.MINISTRY;
+    this.setDocumentType(DocumentName.MINISTRY);
     this.filename = `plate_${request.plate.plateSerialNumber}`;
-    this.dateOfIssue = plate.plateIssueDate;
+    this.setDateOfIssue(plate.plateIssueDate);
 
     const plateData: Partial<MinistryPlate> = {
       plateSerialNumber: plate.plateSerialNumber,

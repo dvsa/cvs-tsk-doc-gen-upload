@@ -10,13 +10,13 @@ export class TrailerIntoServiceDocument extends DocumentModel {
     const { vehicle, letter } = request;
     const { techRecord } = vehicle;
 
-    this.documentType = DocumentName.TRAILER_INTO_SERVICE;
+    this.setDocumentType(DocumentName.TRAILER_INTO_SERVICE);
     this.filename = `letter_${request.vehicle.systemNumber}_${request.vehicle.vin}`;
 
     this.vin = vehicle.vin;
     this.trailerId = vehicle.trailerId;
     this.applicantDetails = techRecord.applicantDetails;
-    this.letterDateRequested = letter.letterDateRequested;
+    this.setLetterDateRequested(letter.letterDateRequested);
     this.approvalTypeNumber = techRecord.approvalTypeNumber;
     this.paragraphId = letter.paragraphId;
 
@@ -28,19 +28,17 @@ export class TrailerIntoServiceDocument extends DocumentModel {
     this.metaData['paragraph-id'] = letter.paragraphId.toString();
   }
 
-  private _letterDateRequested: string;
-
   vin: string;
 
   trailerId: string;
 
   applicantDetails: IApplicantDetails;
 
-  get letterDateRequested(): string { return this._letterDateRequested; }
+  letterDateRequested: string;
 
-  set letterDateRequested(value: string) {
-    this._letterDateRequested = value;
-    this.dateOfIssue = value;
+  setLetterDateRequested = (value: string) => {
+    this.letterDateRequested = value;
+    this.setDateOfIssue(value);
   }
 
   approvalTypeNumber: string;

@@ -5,7 +5,7 @@ import { DocumentName } from '../enums/documentName.enum';
 
 export class DocumentModel {
   constructor(recipientEmailAddress: string) {
-    this.dateOfIssue = new Date().toISOString();
+    this.setDateOfIssue(new Date().toISOString());
     this.Watermark = process.env.BRANCH === 'prod' ? '' : 'NOT VALID';
 
     this.metaData.email = recipientEmailAddress;
@@ -15,18 +15,16 @@ export class DocumentModel {
   filename: string;
   Watermark: string;
 
-  private _documentType: DocumentName;
+  documentType: DocumentName;
 
-  get documentType(): DocumentName { return this._documentType; }
-
-  set documentType(value: DocumentName) {
-    this._documentType = value;
+  setDocumentType = (value: DocumentName) => {
+    this.documentType = value;
     this.metaData['document-type'] = value;
   }
 
-  set fileSize(value: number) { this.metaData['file-size'] = value.toString(); }
+  setFileSize(value: number) { this.metaData['file-size'] = value.toString(); }
 
-  set dateOfIssue(value: string) {
+  setDateOfIssue(value: string) {
     // date is a timestamp
     this.metaData['date-of-issue'] = format(parseISO(value), 'dd/MM/yyyy', { locale: enGB });
   }
