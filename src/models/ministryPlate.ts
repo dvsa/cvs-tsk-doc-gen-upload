@@ -71,6 +71,10 @@ export class MinistryPlateDocument extends DocumentModel {
     this.filename = `plate_${request.plate.plateSerialNumber}`;
     this.setDateOfIssue(plate.plateIssueDate);
 
+    const generateEec = !!(
+      techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearTrlMax <= 120000
+    );
+
     const plateData: Partial<MinistryPlate> = {
       plateSerialNumber: plate.plateSerialNumber,
       dtpNumber: techRecord.brakes.dtpNumber,
@@ -95,7 +99,7 @@ export class MinistryPlateDocument extends DocumentModel {
       dimensionWidth: techRecord.dimensions.width?.toString(),
       plateIssueDate: plate.plateIssueDate,
       tyreUseCode: techRecord.tyreUseCode,
-      axles: this.populateAxles(techRecord.axles),
+      axles: this.populateAxles(techRecord.axles, generateEec),
     };
 
     if (techRecord.vehicleType === VehicleType.HGV) {
@@ -117,7 +121,7 @@ export class MinistryPlateDocument extends DocumentModel {
     this.metaData.vrm = vehicle.primaryVrm ?? vehicle.trailerId;
   }
 
-  private populateAxles = (axles: IAxle[]): Axles => {
+  private populateAxles = (axles: IAxle[], generateEec: boolean): Axles => {
     const plateAxles: Axles = {
       axle1: {},
       axle2: {},
@@ -129,12 +133,12 @@ export class MinistryPlateDocument extends DocumentModel {
       plateAxles[`axle${i + 1}`] = {
         weights: {
           gbWeight: axles[i].weights?.gbWeight?.toString(),
-          eecWeight: axles[i].weights?.eecWeight?.toString(),
+          eecWeight: generateEec ? axles[i].weights?.eecWeight?.toString() : '',
           designWeight: axles[i].weights?.designWeight?.toString(),
         },
         tyres: {
           tyreSize: axles[i].tyres?.tyreSize,
-          plyRating: axles[i].tyres?.plyRating,
+          plyRating: axles[i].tyres?.dataTrAxles ?? axles[i].tyres?.plyRating,
           fitmentCode: axles[i].tyres?.fitmentCode,
         },
       };

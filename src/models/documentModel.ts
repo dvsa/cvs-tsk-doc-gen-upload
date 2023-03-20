@@ -13,6 +13,7 @@ export class DocumentModel {
   }
 
   filename: string;
+
   Watermark: string;
 
   documentType: DocumentName;
@@ -20,7 +21,7 @@ export class DocumentModel {
   setDocumentType = (value: DocumentName) => {
     this.documentType = value;
     this.metaData['document-type'] = value;
-  }
+  };
 
   setFileSize(value: number) { this.metaData['file-size'] = value.toString(); }
 

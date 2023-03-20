@@ -39,7 +39,7 @@ export class TrailerIntoServiceDocument extends DocumentModel {
   setLetterDateRequested = (value: string) => {
     this.letterDateRequested = value;
     this.setDateOfIssue(value);
-  }
+  };
 
   approvalTypeNumber: string;
 
