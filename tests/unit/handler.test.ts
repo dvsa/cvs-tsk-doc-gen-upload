@@ -70,11 +70,7 @@ describe('handler tests', () => {
     it('should return a 200 on successful pdf generation', async () => {
       const lambdaClient = new LambdaClient({ region: 'eu-west-1' });
       lambdaClient.middlewareStack.add(addMiddleware(<InvokeCommandOutput>{ StatusCode: 200 }));
-      const res = await invokePdfGenLambda(
-        new MinistryPlateDocument(request),
-        'VTG6_VTG7',
-        lambdaClient,
-      );
+      const res = await invokePdfGenLambda(new MinistryPlateDocument(request), 'VTG6_VTG7', lambdaClient);
       expect(res.StatusCode).toBe(200);
     });
   });

@@ -23,7 +23,9 @@ export class DocumentModel {
     this.metaData['document-type'] = value;
   };
 
-  setFileSize(value: number) { this.metaData['file-size'] = value.toString(); }
+  setFileSize(value: number) {
+    this.metaData['file-size'] = value.toString();
+  }
 
   setDateOfIssue(value: string) {
     // date is a timestamp

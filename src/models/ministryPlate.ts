@@ -2,7 +2,7 @@ import { Request } from './request';
 import { DocumentName } from '../enums/documentName.enum';
 import { VehicleType } from '../enums/vehicleType.enum';
 import { DocumentModel } from './documentModel';
-import { IAxle } from './vehicleTechRecord';
+import { IAxle, ITechRecord } from './vehicleTechRecord';
 
 export type MinistryPlate = {
   plateSerialNumber: string;
@@ -71,10 +71,6 @@ export class MinistryPlateDocument extends DocumentModel {
     this.filename = `plate_${request.plate.plateSerialNumber}`;
     this.setDateOfIssue(plate.plateIssueDate);
 
-    const generateEec = !!(
-      techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearTrlMax <= 120000
-    );
-
     const plateData: Partial<MinistryPlate> = {
       plateSerialNumber: plate.plateSerialNumber,
       dtpNumber: techRecord.brakes.dtpNumber,
@@ -99,7 +95,7 @@ export class MinistryPlateDocument extends DocumentModel {
       dimensionWidth: techRecord.dimensions.width?.toString(),
       plateIssueDate: plate.plateIssueDate,
       tyreUseCode: techRecord.tyreUseCode,
-      axles: this.populateAxles(techRecord.axles, generateEec),
+      axles: this.populateAxles(techRecord.axles, techRecord),
     };
 
     if (techRecord.vehicleType === VehicleType.HGV) {
@@ -121,7 +117,7 @@ export class MinistryPlateDocument extends DocumentModel {
     this.metaData.vrm = vehicle.primaryVrm ?? vehicle.trailerId;
   }
 
-  private populateAxles = (axles: IAxle[], generateEec: boolean): Axles => {
+  private populateAxles = (axles: IAxle[], techRecord: ITechRecord): Axles => {
     const plateAxles: Axles = {
       axle1: {},
       axle2: {},
@@ -129,11 +125,17 @@ export class MinistryPlateDocument extends DocumentModel {
       axle4: {},
     } as Axles;
     const terminatingCondition = Math.min(axles.length, 4);
+    const generateTrlEec = !!(
+      techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearTrlMax <= 120000
+    );
     for (let i = 0; i < terminatingCondition; i++) {
       plateAxles[`axle${i + 1}`] = {
         weights: {
           gbWeight: axles[i].weights?.gbWeight?.toString(),
-          eecWeight: generateEec ? axles[i].weights?.eecWeight?.toString() : '',
+          eecWeight:
+            techRecord.vehicleType === VehicleType.HGV || generateTrlEec
+              ? axles[i].weights?.eecWeight?.toString()
+              : null,
           designWeight: axles[i].weights?.designWeight?.toString(),
         },
         tyres: {

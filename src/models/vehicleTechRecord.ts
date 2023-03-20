@@ -7,7 +7,7 @@ export interface IVehicleRecord {
   techRecord: ITechRecord;
 }
 
-interface ITechRecord {
+export interface ITechRecord {
   createdAt: string;
   createdByName: string;
   createdById: string;
