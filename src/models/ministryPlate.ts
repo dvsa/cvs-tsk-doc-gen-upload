@@ -105,7 +105,7 @@ export class MinistryPlateDocument extends DocumentModel {
     if (techRecord.vehicleType === VehicleType.HGV) {
       plateData.frontAxleTo5thWheelCouplingMin = techRecord.frontAxleTo5thWheelCouplingMin?.toString();
       plateData.frontAxleTo5thWheelCouplingMax = techRecord.frontAxleTo5thWheelCouplingMax?.toString();
-      plateData.speedLimiterMrk = techRecord.speedLimiterMrk?.toString();
+      plateData.speedLimiterMrk = techRecord.speedLimiterMrk ? 'Yes' : 'No';
     }
 
     if (techRecord.vehicleType === VehicleType.TRL) {
