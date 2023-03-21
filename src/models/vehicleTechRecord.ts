@@ -69,6 +69,8 @@ export interface ITechRecord {
   frontAxleTo5thWheelCouplingMax: number;
   couplingCenterToRearTrlMin: number;
   couplingCenterToRearTrlMax: number;
+  couplingCenterToRearAxleMin: number;
+  couplingCenterToRearAxleMax: number;
   applicantDetails: IApplicantDetails;
 }
 

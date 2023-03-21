@@ -126,7 +126,7 @@ export class MinistryPlateDocument extends DocumentModel {
     } as Axles;
     const terminatingCondition = Math.min(axles.length, 4);
     const generateTrlEec = !!(
-      techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearTrlMax <= 120000
+      techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearAxleMax <= 12000
     );
     for (let i = 0; i < terminatingCondition; i++) {
       plateAxles[`axle${i + 1}`] = {
