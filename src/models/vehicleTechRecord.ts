@@ -65,8 +65,8 @@ export interface ITechRecord {
   axles: IAxle[];
   maxLoadOnCoupling: number;
   dimensions: IDimensions;
-  frontAxleTo5thWheelCouplingMin: number;
-  frontAxleTo5thWheelCouplingMax: number;
+  frontVehicleTo5thWheelCouplingMin: number;
+  frontVehicleTo5thWheelCouplingMax: number;
   couplingCenterToRearTrlMin: number;
   couplingCenterToRearTrlMax: number;
   couplingCenterToRearAxleMin: number;

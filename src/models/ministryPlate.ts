@@ -28,8 +28,8 @@ export type MinistryPlate = {
   maxLoadOnCoupling: string;
   dimensionLength: string;
   dimensionWidth: string;
-  frontAxleTo5thWheelCouplingMin: string;
-  frontAxleTo5thWheelCouplingMax: string;
+  frontVehicleTo5thWheelCouplingMin: string;
+  frontVehicleTo5thWheelCouplingMax: string;
   couplingCenterToRearTrlMax: string;
   couplingCenterToRearTrlMin: string;
   plateIssueDate: string;
@@ -103,8 +103,8 @@ export class MinistryPlateDocument extends DocumentModel {
     };
 
     if (techRecord.vehicleType === VehicleType.HGV) {
-      plateData.frontAxleTo5thWheelCouplingMin = techRecord.frontAxleTo5thWheelCouplingMin?.toString();
-      plateData.frontAxleTo5thWheelCouplingMax = techRecord.frontAxleTo5thWheelCouplingMax?.toString();
+      plateData.frontVehicleTo5thWheelCouplingMin = techRecord.frontVehicleTo5thWheelCouplingMin?.toString();
+      plateData.frontVehicleTo5thWheelCouplingMax = techRecord.frontVehicleTo5thWheelCouplingMax?.toString();
       plateData.speedLimiterMrk = techRecord.speedLimiterMrk ? 'Yes' : 'No';
     }
 
