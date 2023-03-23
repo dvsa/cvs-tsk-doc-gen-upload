@@ -2,7 +2,7 @@ import { Request } from './request';
 import { DocumentName } from '../enums/documentName.enum';
 import { VehicleType } from '../enums/vehicleType.enum';
 import { DocumentModel } from './documentModel';
-import { IAxle, ITechRecord } from './vehicleTechRecord';
+import { IAxle, ITechRecord, VehicleConfiguration } from './vehicleTechRecord';
 
 export type MinistryPlate = {
   plateSerialNumber: string;
@@ -78,9 +78,13 @@ export class MinistryPlateDocument extends DocumentModel {
       vin: vehicle.vin,
       variantNumber: techRecord.variantNumber,
       approvalTypeNumber: techRecord.approvalTypeNumber,
+      functionCode: this.calculateFunctionCode(
+        techRecord.vehicleType,
+        techRecord.roadFriendly,
+        techRecord.vehicleConfiguration,
+      ),
       make: techRecord.make,
       model: techRecord.model,
-      functionCode: techRecord.functionCode,
       regnDate: techRecord.regnDate,
       manufactureYear: techRecord.manufactureYear?.toString(),
       grossGbWeight: techRecord.grossGbWeight?.toString(),
@@ -147,6 +151,31 @@ export class MinistryPlateDocument extends DocumentModel {
     }
     return plateAxles;
   };
+
+  private calculateFunctionCode(vehicleType, roadFriendlySuspension, vehicleConfiguration): string {
+    if (vehicleType === VehicleType.TRL && roadFriendlySuspension) {
+      return 'R';
+    }
+
+    if (vehicleType === VehicleType.HGV) {
+      let functionCode: string | null;
+
+      if (vehicleConfiguration === VehicleConfiguration.ARTICULATED) {
+        functionCode = 'ARTIC';
+      }
+
+      if (vehicleConfiguration === VehicleConfiguration.RIGID) {
+        functionCode = 'RIGID';
+      }
+
+      if (roadFriendlySuspension) {
+        functionCode += ' R';
+      }
+      return functionCode;
+    }
+
+    return null;
+  }
 
   Reissue?: {
     Reason: string;
