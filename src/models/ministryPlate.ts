@@ -2,7 +2,7 @@ import { Request } from './request';
 import { DocumentName } from '../enums/documentName.enum';
 import { VehicleType } from '../enums/vehicleType.enum';
 import { DocumentModel } from './documentModel';
-import { IAxle, ITechRecord, VehicleConfiguration } from './vehicleTechRecord';
+import { IAxle, VehicleConfiguration } from './vehicleTechRecord';
 
 export type MinistryPlate = {
   plateSerialNumber: string;
