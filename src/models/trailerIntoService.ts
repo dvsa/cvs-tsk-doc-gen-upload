@@ -2,28 +2,33 @@
 import { DocumentName } from '../enums/documentName.enum';
 import { DocumentModel } from './documentModel';
 import { Request } from './request';
-import { IApplicantDetails } from './vehicleTechRecord';
 
 export class TrailerIntoServiceDocument extends DocumentModel {
   constructor(request: Request) {
     super(request.recipientEmailAddress);
-    const { vehicle, letter } = request;
-    const { techRecord } = vehicle;
+    const { techRecord, letter } = request;
 
     this.setDocumentType(DocumentName.TRAILER_INTO_SERVICE);
-    this.filename = `letter_${request.vehicle.systemNumber}_${request.vehicle.vin}`;
+    this.filename = `letter_${techRecord.systemNumber}_${techRecord.vin}`;
 
-    this.vin = vehicle.vin;
-    this.trailerId = vehicle.trailerId;
-    this.applicantDetails = techRecord.applicantDetails;
+    this.vin = techRecord.vin;
+    this.trailerId = techRecord.trailerId;
+    this.applicantDetails = {
+      name: techRecord.techRecord_applicantDetails_name,
+      address1: techRecord.techRecord_applicantDetails_address1,
+      address2: techRecord.techRecord_applicantDetails_address2,
+      address3: techRecord.techRecord_applicantDetails_address3,
+      postTown: techRecord.techRecord_applicantDetails_postTown,
+      postCode: techRecord.techRecord_applicantDetails_postCode,
+    };
     this.setLetterDateRequested(letter.letterDateRequested);
-    this.approvalTypeNumber = techRecord.approvalTypeNumber;
+    this.approvalTypeNumber = techRecord.techRecord_approvalTypeNumber;
     this.paragraphId = letter.paragraphId;
 
     // S3 metadata
-    this.metaData.vin = vehicle.vin;
-    this.metaData['trailer-id'] = vehicle.trailerId;
-    this.metaData['approval-type-number'] = techRecord.approvalTypeNumber;
+    this.metaData.vin = techRecord.vin;
+    this.metaData['trailer-id'] = techRecord.trailerId;
+    this.metaData['approval-type-number'] = techRecord.techRecord_approvalTypeNumber;
     this.metaData['letter-type'] = letter.letterType;
     this.metaData['paragraph-id'] = letter.paragraphId.toString();
   }
@@ -32,7 +37,15 @@ export class TrailerIntoServiceDocument extends DocumentModel {
 
   trailerId: string;
 
-  applicantDetails: IApplicantDetails;
+  applicantDetails: {
+    name?: string;
+    address1?: string;
+    address2?: string;
+    postTown?: string;
+    address3?: string;
+    postCode?: string;
+    telephoneNumber?: string;
+  };
 
   letterDateRequested: string;
 
