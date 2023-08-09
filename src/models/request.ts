@@ -1,11 +1,11 @@
-import { ReasonForIssue } from '../enums/reasonForIssue.enum';
 import { LetterType } from '../enums/letterType.enum';
-import { IVehicleRecord } from './vehicleTechRecord';
 import { ParagraphId } from '../enums/paragraphId.enum';
+import { ReasonForIssue } from '../enums/reasonForIssue.enum';
+import { ITechRecord } from './vehicleTechRecord';
 
 export interface Request {
   documentName: string;
-  vehicle: IVehicleRecord;
+  techRecord: ITechRecord;
   recipientEmailAddress: string;
   plate?: Plates;
   letter?: Letter;

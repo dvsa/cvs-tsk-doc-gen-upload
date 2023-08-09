@@ -1,9 +1,9 @@
-import { generateVehicle } from './unitTestUtils';
-import { Request } from '../../src/models/request';
 import { DocumentName } from '../../src/enums/documentName.enum';
 import { LetterType } from '../../src/enums/letterType.enum';
 import { ParagraphId } from '../../src/enums/paragraphId.enum';
+import { Request } from '../../src/models/request';
 import { TrailerIntoServiceDocument } from '../../src/models/trailerIntoService';
+import { generateVehicle } from './unitTestUtils';
 
 describe('Document Model tests', () => {
   let request: Request;
@@ -11,7 +11,7 @@ describe('Document Model tests', () => {
   beforeEach(() => {
     request = {
       documentName: DocumentName.MINISTRY,
-      vehicle: generateVehicle(),
+      techRecord: generateVehicle(),
       recipientEmailAddress: 'customer@example.com',
       letter: {
         letterType: LetterType.TRL_ACCEPTANCE,
@@ -33,9 +33,9 @@ describe('Document Model tests', () => {
     const document = new TrailerIntoServiceDocument(request);
 
     expect(document.metaData['document-type']).toBe(DocumentName.TRAILER_INTO_SERVICE);
-    expect(document.metaData.vin).toBe(request.vehicle.vin);
-    expect(document.metaData['trailer-id']).toBe(request.vehicle.trailerId);
-    expect(document.metaData['approval-type-number']).toBe(request.vehicle.techRecord.approvalTypeNumber);
+    expect(document.metaData.vin).toBe(request.techRecord.vin);
+    expect(document.metaData['trailer-id']).toBe(request.techRecord.trailerId);
+    expect(document.metaData['approval-type-number']).toBe(request.techRecord.techRecord_approvalTypeNumber);
     expect(document.metaData['date-of-issue']).toBe('23/02/2023');
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
   });
