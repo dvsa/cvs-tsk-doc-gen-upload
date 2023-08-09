@@ -1,20 +1,20 @@
-import { PutObjectCommandOutput, S3 } from '@aws-sdk/client-s3';
 import { InvokeCommandOutput, LambdaClient } from '@aws-sdk/client-lambda';
-import * as Handler from '../../src/handler';
-import pass from '../resources/sqsPass.json';
-import { addMiddleware, generateVehicle } from './unitTestUtils';
-import * as DocumentGeneration from '../../src/models/documentModel.factory';
+import { PutObjectCommandOutput, S3 } from '@aws-sdk/client-s3';
+import { DocumentName } from '../../src/enums/documentName.enum';
 import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
+import * as Handler from '../../src/handler';
+import * as DocumentGeneration from '../../src/models/documentModel.factory';
+import { MinistryPlateDocument } from '../../src/models/ministryPlate';
+import { Request } from '../../src/models/request';
 import { invokePdfGenLambda } from '../../src/services/Lamba.service';
 import { uploadPdfToS3 } from '../../src/services/S3.service';
-import { Request } from '../../src/models/request';
-import { MinistryPlateDocument } from '../../src/models/ministryPlate';
-import { DocumentName } from '../../src/enums/documentName.enum';
+import pass from '../resources/sqsPass.json';
+import { addMiddleware, generateVehicle } from './unitTestUtils';
 
 describe('handler tests', () => {
   const request: Request = {
     documentName: DocumentName.MINISTRY,
-    vehicle: generateVehicle(),
+    techRecord: generateVehicle(),
     recipientEmailAddress: 'customer@example.com',
     plate: {
       plateSerialNumber: '12345',
@@ -57,7 +57,7 @@ describe('handler tests', () => {
     const sqsEvent = pass;
     sqsEvent.Records[0].body = JSON.stringify({
       documentName: 'VTG6_VTG7',
-      vehicle: generateVehicle(),
+      techRecord: generateVehicle(),
       plate: request.plate,
     });
 

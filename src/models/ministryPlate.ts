@@ -1,7 +1,7 @@
-import { Request } from './request';
 import { DocumentName } from '../enums/documentName.enum';
 import { VehicleType } from '../enums/vehicleType.enum';
 import { DocumentModel } from './documentModel';
+import { Request } from './request';
 import { IAxle, VehicleConfiguration } from './vehicleTechRecord';
 
 export type MinistryPlate = {
@@ -64,66 +64,66 @@ type Tyre = {
 export class MinistryPlateDocument extends DocumentModel {
   constructor(request: Request) {
     super(request.recipientEmailAddress);
-    const { vehicle, plate } = request;
-    const { techRecord } = vehicle;
+    const { techRecord, plate } = request;
 
     this.setDocumentType(DocumentName.MINISTRY);
-    this.filename = `plate_${request.plate.plateSerialNumber}`;
+    this.filename = `plate_${plate.plateSerialNumber}`;
     this.setDateOfIssue(plate.plateIssueDate);
 
-    const generateTrlEec = techRecord.vehicleType === VehicleType.HGV
+    const generateTrlEec = techRecord.techRecord_vehicleType === VehicleType.HGV
       || !!(
-        techRecord.vehicleType === VehicleType.TRL && techRecord.couplingCenterToRearAxleMax <= this.trlEecWeightLimit
+        techRecord.techRecord_vehicleType === VehicleType.TRL
+        && techRecord.techRecord_couplingCenterToRearAxleMax <= this.trlEecWeightLimit
       );
 
     const plateData: Partial<MinistryPlate> = {
       plateSerialNumber: plate.plateSerialNumber,
-      dtpNumber: techRecord.brakes.dtpNumber,
-      primaryVrm: vehicle.primaryVrm ?? vehicle.trailerId,
-      vin: vehicle.vin,
-      variantNumber: techRecord.variantNumber,
-      approvalTypeNumber: techRecord.approvalTypeNumber,
+      dtpNumber: techRecord.techRecord_brakes_dtpNumber,
+      primaryVrm: techRecord.primaryVrm ?? techRecord.trailerId,
+      vin: techRecord.vin,
+      variantNumber: techRecord.techRecord_variantNumber,
+      approvalTypeNumber: techRecord.techRecord_approvalTypeNumber,
       functionCode: this.calculateFunctionCode(
-        techRecord.vehicleType,
-        techRecord.roadFriendly,
-        techRecord.vehicleConfiguration,
+        techRecord.techRecord_vehicleType,
+        techRecord.techRecord_roadFriendly,
+        techRecord.techRecord_vehicleConfiguration,
       ),
-      make: techRecord.make,
-      model: techRecord.model,
-      regnDate: techRecord.regnDate,
-      manufactureYear: techRecord.manufactureYear?.toString(),
-      grossGbWeight: techRecord.grossGbWeight?.toString(),
-      grossEecWeight: generateTrlEec ? techRecord.grossEecWeight?.toString() : null,
-      grossDesignWeight: techRecord.grossDesignWeight?.toString(),
-      trainGbWeight: techRecord.trainGbWeight?.toString(),
-      trainEecWeight: generateTrlEec ? techRecord.trainEecWeight?.toString() : null,
-      trainDesignWeight: techRecord.trainDesignWeight?.toString(),
-      maxTrainGbWeight: techRecord.maxTrainGbWeight?.toString(),
-      maxTrainEecWeight: generateTrlEec ? techRecord.maxTrainEecWeight?.toString() : null,
-      dimensionLength: techRecord.dimensions.length?.toString(),
-      dimensionWidth: techRecord.dimensions.width?.toString(),
+      make: techRecord.techRecord_make,
+      model: techRecord.techRecord_model,
+      regnDate: techRecord.techRecord_regnDate,
+      manufactureYear: techRecord.techRecord_manufactureYear?.toString(),
+      grossGbWeight: techRecord.techRecord_grossGbWeight?.toString(),
+      grossEecWeight: generateTrlEec ? techRecord.techRecord_grossEecWeight?.toString() : null,
+      grossDesignWeight: techRecord.techRecord_grossDesignWeight?.toString(),
+      trainGbWeight: techRecord.techRecord_trainGbWeight?.toString(),
+      trainEecWeight: generateTrlEec ? techRecord.techRecord_trainEecWeight?.toString() : null,
+      trainDesignWeight: techRecord.techRecord_trainDesignWeight?.toString(),
+      maxTrainGbWeight: techRecord.techRecord_maxTrainGbWeight?.toString(),
+      maxTrainEecWeight: generateTrlEec ? techRecord.techRecord_maxTrainEecWeight?.toString() : null,
+      dimensionLength: techRecord.techRecord_dimensions_length?.toString(),
+      dimensionWidth: techRecord.techRecord_dimensions_width?.toString(),
       plateIssueDate: plate.plateIssueDate,
-      tyreUseCode: techRecord.tyreUseCode,
-      axles: this.populateAxles(techRecord.axles, generateTrlEec),
+      tyreUseCode: techRecord.techRecord_tyreUseCode,
+      axles: this.populateAxles(techRecord.techRecord_axles, generateTrlEec),
     };
 
-    if (techRecord.vehicleType === VehicleType.HGV) {
-      plateData.frontVehicleTo5thWheelCouplingMin = techRecord.frontVehicleTo5thWheelCouplingMin?.toString();
-      plateData.frontVehicleTo5thWheelCouplingMax = techRecord.frontVehicleTo5thWheelCouplingMax?.toString();
-      plateData.speedLimiterMrk = techRecord.speedLimiterMrk ? 'Yes' : 'No';
+    if (techRecord.techRecord_vehicleType === VehicleType.HGV) {
+      plateData.frontVehicleTo5thWheelCouplingMin = techRecord.techRecord_frontVehicleTo5thWheelCouplingMin?.toString();
+      plateData.frontVehicleTo5thWheelCouplingMax = techRecord.techRecord_frontVehicleTo5thWheelCouplingMax?.toString();
+      plateData.speedLimiterMrk = techRecord.techRecord_speedLimiterMrk ? 'Yes' : 'No';
     }
 
-    if (techRecord.vehicleType === VehicleType.TRL) {
-      plateData.maxLoadOnCoupling = techRecord.maxLoadOnCoupling?.toString();
-      plateData.couplingCenterToRearTrlMax = techRecord.couplingCenterToRearTrlMax?.toString();
-      plateData.couplingCenterToRearTrlMin = techRecord.couplingCenterToRearTrlMin?.toString();
+    if (techRecord.techRecord_vehicleType === VehicleType.TRL) {
+      plateData.maxLoadOnCoupling = techRecord.techRecord_maxLoadOnCoupling?.toString();
+      plateData.couplingCenterToRearTrlMax = techRecord.techRecord_couplingCenterToRearTrlMax?.toString();
+      plateData.couplingCenterToRearTrlMin = techRecord.techRecord_couplingCenterToRearTrlMin?.toString();
     }
 
     this.PLATES_DATA = plateData as MinistryPlate;
     this.Reissue = { Reason: plate.plateReasonForIssue };
 
     // S3 metadata
-    this.metaData.vrm = vehicle.primaryVrm ?? vehicle.trailerId;
+    this.metaData.vrm = techRecord.primaryVrm ?? techRecord.trailerId;
   }
 
   private trlEecWeightLimit = 12000;
@@ -139,14 +139,14 @@ export class MinistryPlateDocument extends DocumentModel {
     for (let i = 0; i < terminatingCondition; i++) {
       plateAxles[`axle${i + 1}`] = {
         weights: {
-          gbWeight: axles[i].weights?.gbWeight?.toString(),
-          eecWeight: generateTrlEec ? axles[i].weights?.eecWeight?.toString() : null,
-          designWeight: axles[i].weights?.designWeight?.toString(),
+          gbWeight: axles[i].weights_gbWeight?.toString(),
+          eecWeight: generateTrlEec ? axles[i].weights_eecWeight?.toString() : null,
+          designWeight: axles[i].weights_designWeight?.toString(),
         },
         tyres: {
-          tyreSize: axles[i].tyres?.tyreSize,
-          plyRating: axles[i].tyres?.dataTrAxles ?? axles[i].tyres?.plyRating,
-          fitmentCode: axles[i].tyres?.fitmentCode,
+          tyreSize: axles[i].tyres_tyreSize,
+          plyRating: axles[i].tyres_dataTrAxles ?? axles[i].tyres_plyRating,
+          fitmentCode: axles[i].tyres_fitmentCode,
         },
       };
     }

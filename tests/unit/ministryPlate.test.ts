@@ -1,10 +1,10 @@
 // import { ReasonForIssue } from "../../src/enums/reasonForIssue.enum";
-import { IAxle } from '../../src/models/vehicleTechRecord';
-import { generateVehicle } from './unitTestUtils';
-import { MinistryPlateDocument } from '../../src/models/ministryPlate';
-import { Request } from '../../src/models/request';
 import { DocumentName } from '../../src/enums/documentName.enum';
 import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
+import { MinistryPlateDocument } from '../../src/models/ministryPlate';
+import { Request } from '../../src/models/request';
+import { IAxle } from '../../src/models/vehicleTechRecord';
+import { generateVehicle } from './unitTestUtils';
 
 describe('Document Model tests', () => {
   let request: Request;
@@ -12,7 +12,7 @@ describe('Document Model tests', () => {
   beforeEach(() => {
     request = {
       documentName: DocumentName.MINISTRY,
-      vehicle: generateVehicle(),
+      techRecord: generateVehicle(),
       recipientEmailAddress: 'customer@example.com',
       plate: {
         plateSerialNumber: '12345',
@@ -29,66 +29,46 @@ describe('Document Model tests', () => {
   });
 
   it('should only populate 4 axles if there are more on the vehicle', () => {
-    request.vehicle.techRecord.axles = [
+    request.techRecord.techRecord_axles = [
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '9',
-          plyRating: '9',
-          fitmentCode: '9',
-        },
-        weights: {
-          gbWeight: 999,
-          eecWeight: 999,
-          designWeight: 999,
-        },
+        tyres_tyreSize: '9',
+        tyres_plyRating: '9',
+        tyres_fitmentCode: '9',
+        weights_gbWeight: 999,
+        weights_eecWeight: 999,
+        weights_designWeight: 999,
       },
     ] as IAxle[];
     const document = new MinistryPlateDocument(request);
@@ -102,13 +82,13 @@ describe('Document Model tests', () => {
   });
 
   it('should have trl attributes if vehicle is a trailer', () => {
-    request.vehicle.techRecord.vehicleType = 'trl';
+    request.techRecord.techRecord_vehicleType = 'trl';
     const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
 
   it('should handle 0 axles', () => {
-    request.vehicle.techRecord.axles = [] as IAxle[];
+    request.techRecord.techRecord_axles = [] as IAxle[];
     const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
@@ -119,30 +99,22 @@ describe('Document Model tests', () => {
   });
 
   it('should handle 2 axles', () => {
-    request.vehicle.techRecord.axles = [
+    request.techRecord.techRecord_axles = [
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
     ] as IAxle[];
     const document = new MinistryPlateDocument(request);
@@ -150,42 +122,30 @@ describe('Document Model tests', () => {
   });
 
   it('should handle 3 axles', () => {
-    request.vehicle.techRecord.axles = [
+    request.techRecord.techRecord_axles = [
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
     ] as IAxle[];
     const document = new MinistryPlateDocument(request);
@@ -194,54 +154,38 @@ describe('Document Model tests', () => {
 
   it('should handle 4 axles', () => {
     const vehicle = generateVehicle();
-    vehicle.techRecord.axles = [
+    vehicle.techRecord_axles = [
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
       {
-        tyres: {
-          tyreSize: '1',
-          plyRating: '2',
-          fitmentCode: '3',
-        },
-        weights: {
-          gbWeight: 123,
-          eecWeight: 123,
-          designWeight: 123,
-        },
+        tyres_tyreSize: '1',
+        tyres_plyRating: '2',
+        tyres_fitmentCode: '3',
+        weights_gbWeight: 123,
+        weights_eecWeight: 123,
+        weights_designWeight: 123,
       },
     ] as IAxle[];
     const document = new MinistryPlateDocument(request);
@@ -249,18 +193,18 @@ describe('Document Model tests', () => {
   });
 
   it('should create attributes if vehicle is missing properties', () => {
-    request.vehicle.techRecord.vehicleType = 'trl';
-    request.vehicle.techRecord.manufactureYear = undefined;
-    request.vehicle.techRecord.grossGbWeight = undefined;
-    request.vehicle.techRecord.grossEecWeight = undefined;
-    request.vehicle.techRecord.grossDesignWeight = undefined;
-    request.vehicle.techRecord.trainGbWeight = undefined;
-    request.vehicle.techRecord.trainEecWeight = undefined;
-    request.vehicle.techRecord.trainDesignWeight = undefined;
-    request.vehicle.techRecord.maxTrainGbWeight = undefined;
-    request.vehicle.techRecord.maxTrainEecWeight = undefined;
-    request.vehicle.techRecord.dimensions.length = undefined;
-    request.vehicle.techRecord.dimensions.width = undefined;
+    request.techRecord.techRecord_vehicleType = 'trl';
+    request.techRecord.techRecord_manufactureYear = undefined;
+    request.techRecord.techRecord_grossGbWeight = undefined;
+    request.techRecord.techRecord_grossEecWeight = undefined;
+    request.techRecord.techRecord_grossDesignWeight = undefined;
+    request.techRecord.techRecord_trainGbWeight = undefined;
+    request.techRecord.techRecord_trainEecWeight = undefined;
+    request.techRecord.techRecord_trainDesignWeight = undefined;
+    request.techRecord.techRecord_maxTrainGbWeight = undefined;
+    request.techRecord.techRecord_maxTrainEecWeight = undefined;
+    request.techRecord.techRecord_dimensions_length = undefined;
+    request.techRecord.techRecord_dimensions_width = undefined;
     const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });

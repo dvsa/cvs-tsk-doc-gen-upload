@@ -7,7 +7,6 @@ import { TrailerIntoServiceDocument } from './trailerIntoService';
 export const getDocumentFromRequest = (request: Request): DocumentModel => {
   switch (request.documentName) {
     case DocumentName.MINISTRY:
-    case DocumentName.MINISTRY_TRL:
       return new MinistryPlateDocument(request);
 
     case DocumentName.TRAILER_INTO_SERVICE:
