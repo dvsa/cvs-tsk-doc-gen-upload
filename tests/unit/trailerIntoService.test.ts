@@ -1,3 +1,4 @@
+import { TechRecordType } from '@dvsa/cvs-type-definitions/types/v3/tech-record/tech-record-verb-vehicle-type';
 import { DocumentName } from '../../src/enums/documentName.enum';
 import { LetterType } from '../../src/enums/letterType.enum';
 import { ParagraphId } from '../../src/enums/paragraphId.enum';
@@ -34,7 +35,7 @@ describe('Document Model tests', () => {
 
     expect(document.metaData['document-type']).toBe(DocumentName.TRAILER_INTO_SERVICE);
     expect(document.metaData.vin).toBe(request.techRecord.vin);
-    expect(document.metaData['trailer-id']).toBe(request.techRecord.trailerId);
+    expect(document.metaData['trailer-id']).toBe((request.techRecord as TechRecordType<'trl', 'get'>).trailerId);
     expect(document.metaData['approval-type-number']).toBe(request.techRecord.techRecord_approvalTypeNumber);
     expect(document.metaData['date-of-issue']).toBe('23/02/2023');
     expect(document.metaData.email).toBe(request.recipientEmailAddress);

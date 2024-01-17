@@ -1,14 +1,16 @@
+import { ADRCertificateDetails } from '@dvsa/cvs-type-definitions/types/v3/tech-record/get/hgv/complete';
+import { TechRecordType } from '@dvsa/cvs-type-definitions/types/v3/tech-record/tech-record-verb-vehicle-type';
 import { LetterType } from '../enums/letterType.enum';
 import { ParagraphId } from '../enums/paragraphId.enum';
 import { ReasonForIssue } from '../enums/reasonForIssue.enum';
-import { ITechRecord } from './vehicleTechRecord';
 
 export interface Request {
   documentName: string;
-  techRecord: ITechRecord;
+  techRecord: HgvOrTrl;
   recipientEmailAddress: string;
   plate?: Plates;
   letter?: Letter;
+  adrCertificate?: ADRCertificateDetails;
 }
 export interface Plates {
   plateSerialNumber?: string;
@@ -23,3 +25,5 @@ export interface Letter {
   letterIssuer: string;
   letterDateRequested: string;
 }
+
+export type HgvOrTrl = TechRecordType<'hgv', 'get'> | TechRecordType<'trl', 'get'>;

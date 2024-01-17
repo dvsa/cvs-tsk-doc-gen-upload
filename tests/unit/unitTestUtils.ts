@@ -1,4 +1,4 @@
-import { ITechRecord } from '../../src/models/vehicleTechRecord';
+import { TechRecordGETHGV } from '@dvsa/cvs-type-definitions/types/v3/tech-record/tech-record-verb-vehicle-type';
 
 export const generateVehicle = () => ({
   techRecord_primaryVrm: '123',
@@ -47,6 +47,6 @@ export const generateVehicle = () => ({
   techRecord_applicantDetails_postTown: 'Postal Town',
   techRecord_applicantDetails_address3: 'Address Line 3',
   techRecord_applicantDetails_postcode: 'PO1 1ST',
-} as unknown as ITechRecord);
+} as unknown as TechRecordGETHGV);
 
 export const addMiddleware = <ResponseType>(response: ResponseType) => (_, _2) => async (_3) => Promise.resolve({ output: response, response: {} });
