@@ -8,8 +8,8 @@ export class AdrPassCertificateDocument extends DocumentModel {
     const { techRecord, adrCertificate } = request;
 
     this.Signature = {
-      imageType: 'image/jpeg',
-      imageData: 'lolololol',
+      ImageType: 'image/jpeg',
+      ImageData: 'lolololol',
     };
 
     this.setDocumentType(DocumentName.ADR_PASS_CERTIFICATE);
@@ -57,8 +57,8 @@ export class AdrPassCertificateDocument extends DocumentModel {
   // TODO: Refactor this to match proper names we use of properties post doc-gen refactored
 
   Signature: {
-    imageType: string;
-    imageData: string;
+    ImageType: string;
+    ImageData: string;
   };
 
   ChasisNumber: string;
