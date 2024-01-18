@@ -24,7 +24,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
     this.Make = techRecord.techRecord_make;
     this.Model = techRecord.techRecord_model;
     this.RegistrationNumber = techRecord.techRecord_vehicleType === 'hgv' ? techRecord.primaryVrm : techRecord.trailerId;
-    this.applicantDetails = {
+    this.ApplicantDetails = {
       name: techRecord.techRecord_applicantDetails_name,
       address1: techRecord.techRecord_applicantDetails_address1,
       address2: techRecord.techRecord_applicantDetails_address2,
@@ -69,7 +69,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
 
   RegistrationNumber: string;
 
-  applicantDetails: {
+  ApplicantDetails: {
     name?: string;
     address1?: string;
     address2?: string;
