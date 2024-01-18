@@ -34,7 +34,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
     };
     this.VehicleType = techRecord.techRecord_vehicleType;
     this.PermittedDangerousGoods = techRecord.techRecord_adrDetails_permittedDangerousGoods;
-    this.BrakeEndurance = techRecord.techRecord_adrDetails_brakeEndurance?.toString(); // what is this lmao
+    this.BrakeEndurance = techRecord.techRecord_adrDetails_brakeEndurance;
     this.Weight = techRecord.techRecord_adrDetails_weight;
     this.TankManufacturer = techRecord.techRecord_adrDetails_tank_tankDetails_tankManufacturer;
     this.Tc2InitApprovalNo = techRecord.techRecord_adrDetails_tank_tankDetails_tc2Details_tc2IntermediateApprovalNo;
@@ -83,7 +83,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
 
   PermittedDangerousGoods: string[];
 
-  BrakeEndurance: string;
+  BrakeEndurance: boolean;
 
   Weight: string;
 
