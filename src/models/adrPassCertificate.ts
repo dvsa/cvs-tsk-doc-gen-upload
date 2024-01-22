@@ -1,3 +1,4 @@
+import { ADRCertificateTypes } from '@dvsa/cvs-type-definitions/types/v3/tech-record/get/hgv/complete';
 import { DocumentName } from '../enums/documentName.enum';
 import { DocumentModel } from './documentModel';
 import { Request } from './request';
@@ -31,6 +32,7 @@ export type AdrCert = {
     productList: string;
   };
   notes: string;
+  replacement: boolean;
 };
 
 export class AdrPassCertificateDocument extends DocumentModel {
@@ -73,6 +75,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
         productList: techRecord.techRecord_adrDetails_tank_tankDetails_tankStatement_productList,
       },
       notes: techRecord.techRecord_adrDetails_adrCertificateNotes,
+      replacement: request.adrCertificate.certificateType === ADRCertificateTypes.PASS,
     };
 
     this.ADR_DATA = adrData;
