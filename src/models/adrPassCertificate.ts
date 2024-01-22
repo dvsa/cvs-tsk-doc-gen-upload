@@ -1,4 +1,4 @@
-import { ADRCertificateTypes } from '@dvsa/cvs-type-definitions/types/v3/tech-record/get/hgv/complete';
+import { ADRCertificateTypes } from '@dvsa/cvs-type-definitions/types/v3/tech-record/enums/adrCertificateTypes.enum.js';
 import { DocumentName } from '../enums/documentName.enum';
 import { DocumentModel } from './documentModel';
 import { Request } from './request';
