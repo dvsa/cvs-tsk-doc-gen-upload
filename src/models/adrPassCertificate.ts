@@ -75,7 +75,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
         productList: techRecord.techRecord_adrDetails_tank_tankDetails_tankStatement_productList,
       },
       notes: techRecord.techRecord_adrDetails_adrCertificateNotes,
-      replacement: request.adrCertificate.certificateType === ADRCertificateTypes.PASS,
+      replacement: request.adrCertificate.certificateType === ADRCertificateTypes.REPLACEMENT,
     };
 
     this.ADR_DATA = adrData;
