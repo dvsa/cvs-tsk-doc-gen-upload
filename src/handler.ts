@@ -48,8 +48,6 @@ const generateAndUpload = async (document: DocumentModel, request: Request) => {
       throw new Error(`Error returned from doc gen (${responseJson.statusCode}): ${responseJson.body}`);
     }
 
-    logger.info(responseJson.body);
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const responseBuffer: Buffer = Buffer.from(responseJson.body, 'base64');
     document.setFileSize(responseBuffer.byteLength);
