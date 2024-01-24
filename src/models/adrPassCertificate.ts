@@ -50,7 +50,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
     const adrData: AdrCert = {
       // ADR data
       vin: techRecord.vin,
-      make: techRecord.techRecord_make,
+      make: techRecord.techRecord_vehicleType === 'lgv' ? '' : techRecord.techRecord_make,
       vrm: techRecord.techRecord_vehicleType === 'trl' ? techRecord.trailerId : techRecord.primaryVrm,
       applicantDetails: {
         name: techRecord.techRecord_adrDetails_applicantDetails_name,

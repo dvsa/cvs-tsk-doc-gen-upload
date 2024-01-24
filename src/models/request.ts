@@ -6,7 +6,7 @@ import { ReasonForIssue } from '../enums/reasonForIssue.enum';
 
 export interface Request {
   documentName: string;
-  techRecord: HgvOrTrl;
+  techRecord: HgvTrlLgv;
   recipientEmailAddress: string;
   plate?: Plates;
   letter?: Letter;
@@ -26,4 +26,4 @@ export interface Letter {
   letterDateRequested: string;
 }
 
-export type HgvOrTrl = TechRecordType<'hgv', 'get'> | TechRecordType<'trl', 'get'>;
+export type HgvTrlLgv = TechRecordType<'hgv', 'get'> | TechRecordType<'trl', 'get'> | TechRecordType<'lgv', 'get'>;
