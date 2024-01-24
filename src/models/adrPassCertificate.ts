@@ -51,7 +51,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
       // ADR data
       vin: techRecord.vin,
       make: techRecord.techRecord_make,
-      vrm: techRecord.techRecord_vehicleType === 'hgv' ? techRecord.primaryVrm : techRecord.trailerId,
+      vrm: techRecord.techRecord_vehicleType === 'trl' ? techRecord.trailerId : techRecord.primaryVrm,
       applicantDetails: {
         name: techRecord.techRecord_adrDetails_applicantDetails_name,
         address1: techRecord.techRecord_adrDetails_applicantDetails_street,
