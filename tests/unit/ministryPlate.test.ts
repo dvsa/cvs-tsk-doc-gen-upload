@@ -1,5 +1,6 @@
 // import { ReasonForIssue } from "../../src/enums/reasonForIssue.enum";
 import { HGVAxles } from '@dvsa/cvs-type-definitions/types/v3/tech-record/get/hgv/complete';
+import { TechRecordType } from '@dvsa/cvs-type-definitions/types/v3/tech-record/tech-record-verb-vehicle-type';
 import { DocumentName } from '../../src/enums/documentName.enum';
 import { ReasonForIssue } from '../../src/enums/reasonForIssue.enum';
 import { MinistryPlateDocument } from '../../src/models/ministryPlate';
@@ -29,7 +30,7 @@ describe('Document Model tests', () => {
   });
 
   it('should only populate 4 axles if there are more on the vehicle', () => {
-    request.techRecord.techRecord_axles = [
+    (request.techRecord as TechRecordType<'hgv', 'get'>).techRecord_axles = [
       {
         tyres_tyreSize: '1',
         tyres_plyRating: '2',
@@ -88,7 +89,7 @@ describe('Document Model tests', () => {
   });
 
   it('should handle 0 axles', () => {
-    request.techRecord.techRecord_axles = [] as HGVAxles[];
+    (request.techRecord as TechRecordType<'hgv', 'get'>).techRecord_axles = [] as HGVAxles[];
     const document = new MinistryPlateDocument(request);
     expect(document).toBeTruthy();
   });
@@ -99,7 +100,7 @@ describe('Document Model tests', () => {
   });
 
   it('should handle 2 axles', () => {
-    request.techRecord.techRecord_axles = [
+    (request.techRecord as TechRecordType<'hgv', 'get'>).techRecord_axles = [
       {
         tyres_tyreSize: '1',
         tyres_plyRating: '2',
@@ -122,7 +123,7 @@ describe('Document Model tests', () => {
   });
 
   it('should handle 3 axles', () => {
-    request.techRecord.techRecord_axles = [
+    (request.techRecord as TechRecordType<'hgv', 'get'>).techRecord_axles = [
       {
         tyres_tyreSize: '1',
         tyres_plyRating: '2',

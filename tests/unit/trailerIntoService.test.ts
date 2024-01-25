@@ -12,7 +12,7 @@ describe('Document Model tests', () => {
   beforeEach(() => {
     request = {
       documentName: DocumentName.MINISTRY,
-      techRecord: generateVehicle(),
+      techRecord: generateVehicle('trl'),
       recipientEmailAddress: 'customer@example.com',
       letter: {
         letterType: LetterType.TRL_ACCEPTANCE,
@@ -36,7 +36,9 @@ describe('Document Model tests', () => {
     expect(document.metaData['document-type']).toBe(DocumentName.TRAILER_INTO_SERVICE);
     expect(document.metaData.vin).toBe(request.techRecord.vin);
     expect(document.metaData['trailer-id']).toBe((request.techRecord as TechRecordType<'trl', 'get'>).trailerId);
-    expect(document.metaData['approval-type-number']).toBe(request.techRecord.techRecord_approvalTypeNumber);
+    expect(document.metaData['approval-type-number']).toBe(
+      (request.techRecord as TechRecordType<'trl', 'get'>).techRecord_approvalTypeNumber,
+    );
     expect(document.metaData['date-of-issue']).toBe('23/02/2023');
     expect(document.metaData.email).toBe(request.recipientEmailAddress);
   });
