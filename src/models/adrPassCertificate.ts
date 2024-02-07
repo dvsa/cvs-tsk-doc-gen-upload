@@ -1,4 +1,5 @@
 import { ADRCertificateTypes } from '@dvsa/cvs-type-definitions/types/v3/tech-record/enums/adrCertificateTypes.enum.js';
+import { ADRCompatibilityGroupJ } from '@dvsa/cvs-type-definitions/types/v3/tech-record/enums/adrCompatibilityGroupJ.enum.js';
 import { DocumentName } from '../enums/documentName.enum';
 import { DocumentModel } from './documentModel';
 import { HgvTrlLgv, Request } from './request';
@@ -35,6 +36,7 @@ export type AdrCert = {
   replacement: boolean;
   batteryListNumber: string;
   m145Statement: boolean;
+  compatibilityGroupJ: boolean;
 };
 
 export class AdrPassCertificateDocument extends DocumentModel {
@@ -80,6 +82,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
       replacement: request.adrCertificate.certificateType === ADRCertificateTypes.REPLACEMENT,
       batteryListNumber: techRecord.techRecord_adrDetails_batteryListNumber,
       m145Statement: techRecord.techRecord_adrDetails_m145Statement,
+      compatibilityGroupJ: techRecord.techRecord_adrDetails_compatibilityGroupJ === ADRCompatibilityGroupJ.I,
     };
 
     this.ADR_DATA = adrData;
