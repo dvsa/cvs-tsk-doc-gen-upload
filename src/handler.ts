@@ -18,6 +18,7 @@ export const handler: Handler = async (event: SQSEvent): Promise<SQSBatchRespons
     const request = JSON.parse(sqsRecord.body) as Request;
 
     const document: DocumentModel = getDocumentFromRequest(request);
+    logger.debug(`Document: ${JSON.stringify(document)}`);
     return generateAndUpload(document, request);
   });
 
