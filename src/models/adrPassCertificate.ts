@@ -99,7 +99,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
     if (techRecord.techRecord_adrDetails_tank_tankDetails_tankStatement_productListRefNo) {
       productList += `${techRecord.techRecord_adrDetails_tank_tankDetails_tankStatement_productListRefNo} `;
     }
-    return productList;
+    return productList === '' ? null : productList;
   };
 
   ADR_DATA: AdrCert;
