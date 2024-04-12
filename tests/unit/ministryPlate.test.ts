@@ -76,6 +76,12 @@ describe('Document Model tests', () => {
     expect(document.PLATES_DATA.axles.axle4.weights.gbWeight).toBe('123');
   });
 
+  it('should not fail if no axles present', () => {
+    (request.techRecord as TechRecordType<'hgv', 'get'>).techRecord_axles = null as unknown as HGVAxles[];
+    const document = new MinistryPlateDocument(request);
+    expect(document.PLATES_DATA.axles.axle1).toStrictEqual({});
+  });
+
   it('should apply no water mark for prod', () => {
     process.env.BRANCH = 'prod';
     const document = new MinistryPlateDocument(request);

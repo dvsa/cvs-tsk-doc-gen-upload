@@ -118,8 +118,8 @@ export class MinistryPlateDocument extends DocumentModel {
         tyreUseCode: techRecord.techRecord_tyreUseCode,
         axles: this.populateAxles(
           techRecord.techRecord_vehicleType === 'hgv'
-            ? (techRecord.techRecord_axles as HGVAxles[])
-            : (techRecord.techRecord_axles as TRLAxles[]),
+            ? (techRecord.techRecord_axles as HGVAxles[] ?? [])
+            : (techRecord.techRecord_axles as TRLAxles[] ?? []),
           generateTrlEec,
         ),
       }
