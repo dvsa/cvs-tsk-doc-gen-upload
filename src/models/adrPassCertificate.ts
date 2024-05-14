@@ -59,7 +59,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
     this.metaData['test-type-result'] = adrCertificate.certificateType.toLowerCase();
 
     // ADR data
-    const adrData: AdrCert = {
+    this.ADR_DATA = {
       vin: techRecord.vin,
       make: techRecord.techRecord_vehicleType === 'lgv' ? '' : techRecord.techRecord_make,
       vrm: techRecord.techRecord_vehicleType === 'trl' ? techRecord.trailerId : techRecord.primaryVrm,
@@ -67,7 +67,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
         name: techRecord.techRecord_adrDetails_applicantDetails_name,
         address1: techRecord.techRecord_adrDetails_applicantDetails_street,
         address2: techRecord.techRecord_adrDetails_applicantDetails_city,
-        postTown: techRecord.techRecord_adrDetails_applicantDetails_town,
+        postTown: techRecord.techRecord_applicantDetails_postTown,
         postCode: techRecord.techRecord_adrDetails_applicantDetails_postcode,
       },
       adrVehicleType: techRecord.techRecord_adrDetails_vehicleDetails_type,
@@ -91,8 +91,6 @@ export class AdrPassCertificateDocument extends DocumentModel {
       m145Statement: techRecord.techRecord_adrDetails_m145Statement,
       compatibilityGroupJ: techRecord.techRecord_adrDetails_compatibilityGroupJ === ADRCompatibilityGroupJ.I,
     };
-
-    this.ADR_DATA = adrData;
   }
 
   formatProductList = (techRecord: HgvTrlLgv) => {

@@ -3,6 +3,7 @@ import { TechRecordGETHGV } from '@dvsa/cvs-type-definitions/types/v3/tech-recor
 export const generateVehicle = (vehicleType = 'hgv') => ({
   techRecord_primaryVrm: '123',
   techRecord_vin: '123',
+  systemNumber: '321',
   techRecord_vehicleType: vehicleType,
   techRecord_plates_plateReasonForIssue: 'REPLACEMENT',
   techRecord_plates_plateSerialNumber: '1233423452',
