@@ -67,7 +67,7 @@ export class AdrPassCertificateDocument extends DocumentModel {
         name: techRecord.techRecord_adrDetails_applicantDetails_name,
         address1: techRecord.techRecord_adrDetails_applicantDetails_street,
         address2: techRecord.techRecord_adrDetails_applicantDetails_city,
-        postTown: techRecord.techRecord_applicantDetails_postTown,
+        postTown: techRecord.techRecord_adrDetails_applicantDetails_town,
         postCode: techRecord.techRecord_adrDetails_applicantDetails_postcode,
       },
       adrVehicleType: techRecord.techRecord_adrDetails_vehicleDetails_type,
