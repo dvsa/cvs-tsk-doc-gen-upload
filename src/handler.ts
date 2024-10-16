@@ -1,4 +1,6 @@
-import {Handler, SQSBatchItemFailure, SQSBatchResponse, SQSEvent} from 'aws-lambda';
+import {
+  Handler, SQSBatchItemFailure, SQSBatchResponse, SQSEvent,
+} from 'aws-lambda';
 import { TextDecoder } from 'util';
 import { DocumentModel } from './models/documentModel';
 import { getDocumentFromRequest } from './models/documentModel.factory';
@@ -22,7 +24,7 @@ export const handler: Handler = async (event: SQSEvent): Promise<SQSBatchRespons
       // eslint-disable-next-line no-await-in-loop
       await generateAndUpload(document, request);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       batchItemFailures.push({ itemIdentifier: sqsRecord.messageId });
     }
   }
@@ -35,7 +37,6 @@ const generateAndUpload = async (document: DocumentModel, request: Request) => {
   logger.info('Finished lambda to lambda invoke, checking response');
 
   if (response.StatusCode !== 200) {
-    logger.error(`Error invoking doc gen (lambda call failed with ${response.StatusCode}`);
     throw new Error(`Error invoking doc gen (lambda call failed with ${response.StatusCode}`);
   }
   const responseString: string = new TextDecoder().decode(response.Payload);
