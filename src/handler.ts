@@ -24,7 +24,7 @@ export const handler: Handler = async (event: SQSEvent): Promise<SQSBatchRespons
       // eslint-disable-next-line no-await-in-loop
       await generateAndUpload(document, request);
     } catch (error) {
-      logger.error(error);
+      console.error(error);
       batchItemFailures.push({ itemIdentifier: sqsRecord.messageId });
     }
   }
